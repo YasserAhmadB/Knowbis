@@ -7,12 +7,12 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    # add_fieldsets = (
-    #     (None, {
-    #         'classes': ('wide',),
-    #         'fields': ('username', 'password1', 'password2', 'email', 'first_name', 'last_name'),
-    #     }),
-    # )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'email', 'first_name', 'last_name', 'is_staff'),
+        }),
+    )
     pass
 # from django.contrib import admin
 #

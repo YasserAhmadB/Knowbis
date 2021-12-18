@@ -11,8 +11,8 @@ class Provider(models.Model):
 
     STATUS_CHOICES = [
         (STATUS_ACTIVE, 'Active'),
-        (STATUS_BLOCKED, 'Blocked'),
         (STATUS_VERIFIED, 'Verified'),
+        (STATUS_BLOCKED, 'Blocked'),
     ]
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=STATUS_ACTIVE)
@@ -36,3 +36,4 @@ class Provider(models.Model):
 class ProviderDocuments(models.Model):
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     document = models.FileField()
+
