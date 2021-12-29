@@ -1,13 +1,17 @@
-from django.conf import settings
+print("[VIEWS] before")
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
+print("[VIEWS] After 1")
 
 # Create your views here.
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+print("[VIEWS] After 2")
 
-from category.models import Category
-from category.serializer import CategorySerializer
+from .models import Category
+from .serializer import CategorySerializer
+from .serializer import CategorizedItemSerializer
+print("[VIEWS] After 3")
 
 
 @api_view()
@@ -25,6 +29,7 @@ def category_list(request):
     if request.user.is_authenticated:
         category = Category.objects.all()
         serializer = CategorySerializer(category, many=True)
+        print('type(serializer):', type(serializer))
         return Response(serializer.data)
     return Response("Not authenticated")
 

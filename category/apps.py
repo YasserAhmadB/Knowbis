@@ -1,4 +1,6 @@
+print("[APPS] before")
 from django.apps import AppConfig
+print("[APPS] after")
 
 
 class TagsConfig(AppConfig):

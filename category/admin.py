@@ -1,6 +1,8 @@
+print("[ADMIN] before")
 from django.contrib import admin
 from .models import Category
 from .models import CategorizedItem
+print("[ADMIN] after")
 
 
 # Register your models here.
@@ -12,4 +14,4 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['label']
 
 
-# admin.site.register(CategorizedItem)
+admin.site.register(CategorizedItem)
