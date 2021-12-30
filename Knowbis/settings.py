@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'likes',
     'category',
     'provider',
+    'browsing_platform',
     'tester',
 ]
 

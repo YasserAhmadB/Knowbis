@@ -17,10 +17,17 @@ print("[VIEWS] After 3")
 @api_view()
 def category_detail(request, id):
     if request.user.is_authenticated:
-        category = get_object_or_404(Category, pk=id)
-        serializer = CategorySerializer(category)
-        print("type(serializer.data):", type(serializer.data))
+        category = get_object_or_404(
+            Category,
+            pk=id
+        )
+
+        serializer = CategorySerializer(
+            category
+        )
+
         return Response(serializer.data)
+
     return HttpResponse("No permissions")
 
 
@@ -28,8 +35,12 @@ def category_detail(request, id):
 def category_list(request):
     if request.user.is_authenticated:
         category = Category.objects.all()
-        serializer = CategorySerializer(category, many=True)
-        print('type(serializer):', type(serializer))
+
+        serializer = CategorySerializer(
+            category,
+            many=True
+        )
+
         return Response(serializer.data)
     return Response("Not authenticated")
 
