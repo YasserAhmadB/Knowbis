@@ -28,7 +28,7 @@ def category_detail(request, id):
 
         return Response(serializer.data)
 
-    return HttpResponse("No permissions")
+    return Response("No permissions")
 
 
 @api_view()

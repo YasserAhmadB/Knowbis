@@ -12,4 +12,4 @@ class CategorizedItemSerializer(serializers.Serializer):
     # content_type = ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = serializers.IntegerField()
     # content_object = serializers.GenericForeignKey()
-    category = CategorySerializer()
+    # category = CategorySerializer()
