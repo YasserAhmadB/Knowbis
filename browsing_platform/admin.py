@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from category.models import Category, CategorizedItem
 from .models import Material
 
 
@@ -21,6 +23,7 @@ from .models import Material
 
 @admin.register(Material)
 class MaterialAdmin(admin.ModelAdmin):
+    # inlines = [CategorizedItemInLine]
     # add_fieldsets = (
     #     (None, {
     #         'classes': ('wide',),

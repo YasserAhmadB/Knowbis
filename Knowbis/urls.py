@@ -25,6 +25,6 @@ urlpatterns = [
     path('auth/', include('authenticator.urls')),
     path('', include('tester.urls')),
     path('cat/', include('category.urls')),
-    path('brawsing/', include('browsing_platform.urls')),
+    path('browsing/', include('browsing_platform.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
