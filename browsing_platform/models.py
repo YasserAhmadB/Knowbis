@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
+from Knowbis.settings import AUTH_USER_MODEL
 from .adapter import Category
 
 
@@ -21,12 +22,23 @@ class Material(models.Model):
         max_length=255
     )
 
+    # instructor = models.CharField(
+    #     max_length=255,
+    #     default=AUTH_USER_MODEL
+    # )
+    instructor = models.ForeignKey(
+        to=AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    likes = models.IntegerField(default=0)
+
     description = models.CharField(
-        max_length=1255
+        max_length=1255,
+        null=True
     )
 
     image = models.ImageField()
-
     category = models.ForeignKey(to=Category, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -41,9 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'debug_toolbar',
     'authenticator',
-    'likes',
     'category',
-    'provider',
     'browsing_platform',
     'tester',
 ]

@@ -24,12 +24,7 @@ from .models import Material
 @admin.register(Material)
 class MaterialAdmin(admin.ModelAdmin):
     # inlines = [CategorizedItemInLine]
-    # add_fieldsets = (
-    #     (None, {
-    #         'classes': ('wide',),
-    #         'fields': ('title', 'category'),
-    #     }),
-    # )
+    fields = ('title', 'category', 'instructor', 'description', 'image')
     list_display = [
         'title', 'category'
     ]
