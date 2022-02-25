@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('browsing_platform', '0007_auto_20220103_0252'),
+        ('platform', '0007_auto_20220103_0252'),
     ]
 
     operations = [

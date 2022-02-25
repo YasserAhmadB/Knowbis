@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('category', '0004_auto_20211216_1424'),
-        ('browsing_platform', '0005_remove_material_category'),
+        ('platform', '0005_remove_material_category'),
     ]
 
     operations = [

@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('browsing_platform', '0006_material_category'),
+        ('platform', '0006_material_category'),
     ]
 
     operations = [

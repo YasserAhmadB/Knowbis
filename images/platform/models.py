@@ -1,19 +1,18 @@
-from django.contrib.contenttypes.models import ContentType
+# from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from Knowbis.settings import AUTH_USER_MODEL
-from .adapter import Category
 
 
-class MaterialManager(models.Manager):
-    def get_categories_for(self, obj_type, obj_id):
-        content_type = ContentType.objects.get_for_model(obj_type)
-        return Material.objects \
-            .select_related('category') \
-            .filter(
-                content_type=content_type,
-                object_id=obj_type
-            )
+# class MaterialManager(models.Manager):
+#     def get_categories_for(self, obj_type, obj_id):
+#         content_type = ContentType.objects.get_for_model(obj_type)
+#         return Material.objects \
+#             .select_related('category') \
+#             .filter(
+#                 content_type=content_type,
+#                 object_id=obj_type
+#             )
 
 
 class Material(models.Model):

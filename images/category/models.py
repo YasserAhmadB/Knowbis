@@ -15,9 +15,8 @@ class CategorizedItemManager(models.Manager):
 
 
 class Category(models.Model):
-    label = models.CharField(
-        max_length=255
-    )
+    label = models.CharField(max_length=255)
+    creation_time = models.TimeField(null=True)
 
     def __str__(self) -> str:
         return self.label
