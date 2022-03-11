@@ -38,6 +38,6 @@ class Audience(models.Model):
     pass
 
 
-class EnrolledMaterial(models.Model):
-    audience = models.ForeignKey(Audience, on_delete=models.CASCADE, primary_key=True)
-    material = models.ForeignKey(Material, on_delete=models.CASCADE, primary_key=True)
+# class EnrolledMaterial(models.Model):
+#     audience = models.ForeignKey(Audience, on_delete=models.CASCADE, primary_key=True)
+#     material = models.ForeignKey(Material, on_delete=models.CASCADE, primary_key=True)
