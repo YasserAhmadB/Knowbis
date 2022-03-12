@@ -53,9 +53,11 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 INTERNAL_IPS = [
     '127.0.0.1'
@@ -150,8 +152,35 @@ SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
 AUTHENTICATION_BACKENDS = {
     'social_core.backends.auth0.Auth0OAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.RemoteUserBackend',
 }
 
 LOGIN_URL = 'auth/login/auth0'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# apiexample/settings.py
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+# apiexample/settings.py
+
+JWT_AUTH = {
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER':
+        'auth0authorization.utils.jwt_get_username_from_payload_handler',
+    'JWT_DECODE_HANDLER':
+        'auth0authorization.utils.jwt_decode_token',
+    'JWT_ALGORITHM': 'RS256',
+    'JWT_AUDIENCE': 'undefined',
+    'JWT_ISSUER': 'https://YOUR_DOMAIN/',
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+}

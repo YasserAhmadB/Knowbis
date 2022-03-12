@@ -23,8 +23,8 @@ admin.site.index_title = 'Admin'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authenticator.urls')),
-    path('', include('tester.urls')),
+    path('', include('authenticator.urls')),
     # path('cat/', include('category.urls')),
-    # path('material/', include('platform.urls')),
+    path('material/', include('_platform.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 ]

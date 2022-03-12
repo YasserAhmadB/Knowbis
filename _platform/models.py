@@ -4,7 +4,13 @@ from Knowbis.settings import AUTH_USER_MODEL
 
 
 class Provider(models.Model):
-    pass
+    user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.first_name}'
+
+    class Meta:
+        ordering = ['user__first_name']
 
 
 class Category(models.Model):
@@ -35,8 +41,10 @@ class Material(models.Model):
 
 
 class Audience(models.Model):
-    pass
+    user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.user.first_name}'
 
 # class EnrolledMaterial(models.Model):
 #     audience = models.ForeignKey(Audience, on_delete=models.CASCADE, primary_key=True)
