@@ -2,7 +2,7 @@ from rest_framework_nested import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register('', views.MaterialViewSet, basename='')
+router.register('material', views.MaterialViewSet, basename='material')
 # router.register('collections', views.CollectionViewSet)
 # router.register('carts', views.CartViewSet)
 

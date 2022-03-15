@@ -180,7 +180,7 @@ JWT_AUTH = {
     'JWT_DECODE_HANDLER':
         'auth0authorization.utils.jwt_decode_token',
     'JWT_ALGORITHM': 'RS256',
-    'JWT_AUDIENCE': 'undefined',
-    'JWT_ISSUER': 'https://YOUR_DOMAIN/',
+    'JWT_AUDIENCE': 'https://dev-f76uszn5.us.auth0.com/api/v2/',
+    'JWT_ISSUER': 'dev-f76uszn5.us.auth0.com',
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
