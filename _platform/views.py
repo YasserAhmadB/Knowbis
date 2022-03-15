@@ -5,8 +5,7 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import mixins
 
 from _platform.models import Category, Material
-from _platform.serializers import CategorySerializer, MaterialSerializer, AddMaterialSerializer, \
-    UpdateMaterialSerializer
+from _platform.serializers import CategorySerializer, MaterialSerializer, AddUpdateMaterialSerializer
 
 
 class CategoryViewSet(ModelViewSet):
@@ -20,8 +19,6 @@ class MaterialViewSet(GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateMo
     http_method_names = ['get', 'post', 'patch', 'delete']
 
     def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return AddMaterialSerializer
-        elif self.request.method == 'PATCH':
-            return UpdateMaterialSerializer
+        if self.request.method == 'POST' or self.request.method == 'PATCH':
+            return AddUpdateMaterialSerializer
         return MaterialSerializer
