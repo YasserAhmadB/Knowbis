@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'authenticator',
+    # 'authenticator',
+    '_platform'
 ]
 
 MIDDLEWARE = [
@@ -77,8 +78,11 @@ WSGI_APPLICATION = 'Knowbis.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Knowbis',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': 'root'
     }
 }
 
@@ -125,13 +129,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'auth0.authentication.Auth0TokenAuthentication',
-    ]
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'auth0.authentication.Auth0TokenAuthentication',
+#     ]
+# }
 
-# auth0 settings
-AUTH0_DOMAIN = 'dev-yw768gnr.us.auth0.com'
-AUTH0_ALGORITHMS = ['RS256']
-AUTH0_API_AUDIENCE = 'https://drf-auth0/'
+# # auth0 settings
+# AUTH0_DOMAIN = 'dev-yw768gnr.us.auth0.com'
+# AUTH0_ALGORITHMS = ['RS256']
+# AUTH0_API_AUDIENCE = 'https://drf-auth0/'
