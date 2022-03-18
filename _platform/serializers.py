@@ -2,12 +2,16 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from Knowbis.serializers_methods import validate_field
-from .models import Category, Material
+from .models import Category, Material, Provider
+
+
+class ProviderSerializer(ModelSerializer):
+    class Meta:
+        model = Provider
+        fields = ['major', 'user']
 
 
 class CategorySerializer(ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-
     def validate_title(self, value: str):
         validate_field(value)
         return value
@@ -19,22 +23,23 @@ class CategorySerializer(ModelSerializer):
 
 class AddUpdateMaterialSerializer(ModelSerializer):
     """
-    Special serializer, it differs from MaterialSerializer that it does not overwrite for id, and category fields.
+    Special serializer, it differs from MaterialSerializer that it does not overwrite the id, and category fields.
     Used for creating and updating material.
-    The programmer thinks no need to have two classes (AddMaterialSerializer, UpdateMaterialSerializer)
+    The programmer thinks that there is no need to have two classes (AddMaterialSerializer, UpdateMaterialSerializer)
     """
+
     def validate_title(self, value: str):
         validate_field(value)
         return value
 
     class Meta:
         model = Material
-        fields = ['title', 'description', 'category']
+        fields = ['title', 'description', 'category', 'provider']
 
 
 class MaterialSerializer(ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
     category = CategorySerializer()
+    provider = ProviderSerializer()
 
     def validate_title(self, value: str):
         validate_field(value)
@@ -42,4 +47,4 @@ class MaterialSerializer(ModelSerializer):
 
     class Meta:
         model = Material
-        fields = ['id', 'title', 'description', 'category']
+        fields = ['id', 'title', 'description', 'category', 'provider']
