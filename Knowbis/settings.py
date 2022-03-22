@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-mkbdg)aknyuvz_-a3te9t%+^lnd8t3igk#yhq^bjuzybwu1(sy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.2']
+ALLOWED_HOSTS = ['192.168.1.2', '192.168.1.6', '192.168.1.6:3000', '192.168.56.1']
 
 
 # Application definition
@@ -141,11 +141,11 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': (
     #     'rest_framework.permissions.IsAuthenticated',
     # ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    #     'rest_framework.authentication.BasicAuthentication',
+    # ),
 }
 
 JWT_AUDIENCE = 'https://dev-f76uszn5.us.auth0.com/api/v2/'
