@@ -6,4 +6,8 @@ router.register('categories', viewset=CategoryViewSet)
 router.register('courses', viewset=MaterialViewSet)
 router.register('instructors', viewset=ProviderViewSet)
 
-urlpatterns = router.urls
+categories_router = routers.NestedDefaultRouter(router, 'categories', lookup='category')
+categories_router.register('courses', MaterialViewSet, basename='category-materials')
+
+urlpatterns = router.urls + categories_router.urls
+
