@@ -15,8 +15,10 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Env" />
+      <excludeFolder url="file://$MODULE_DIR$/Env2" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (TestProject)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (Env)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="storefront2" />
   </component>

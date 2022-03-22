@@ -1,11 +1,9 @@
-from django.shortcuts import render
-
 # Create your views here.
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import mixins
 
-from _platform.models import Category, Material, Provider
-from _platform.serializers import CategorySerializer, MaterialSerializer, AddUpdateMaterialSerializer, \
+from .models import Category, Material, Provider
+from .serializers import CategorySerializer, MaterialSerializer, AddUpdateMaterialSerializer, \
     ProviderSerializer
 
 

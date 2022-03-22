@@ -5,7 +5,7 @@ import json
 import jwt
 import requests
 
-from Knowbis.settings import JWT_ISSUER
+from .Knowbis.settings import JWT_ISSUER
 
 
 def jwt_get_username_from_payload_handler(payload):
