@@ -30,7 +30,7 @@ class CourseMaterialViewSet(ModelViewSet):
         return CourseMaterialSerializer
 
     def get_queryset(self):
-        return Material.objects.filter(category_id=self.kwargs['category_pk'])
+        return Material.objects.filter(category_id=self.kwargs['category_pk']).select_related('provider').select_related('category')
 
 
 class ProviderViewSet(GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):

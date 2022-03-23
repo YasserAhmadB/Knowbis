@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_tool',
+    'debug_toolbar',
     'rest_framework',
     # 'djoser',
     'authenticator',
@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.RemoteUserMiddleware',  # For auth0
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',  # For debug toolbar
 ]
 
 ROOT_URLCONF = 'Knowbis.urls'
@@ -174,3 +175,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'django.contrib.auth.backends.RemoteUserBackend',
 ]
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    "192.168.1.2"
+    # ...
+]  # For debug toolbar
