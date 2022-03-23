@@ -47,3 +47,12 @@ class MaterialSerializer(ModelSerializer):
     class Meta:
         model = Material
         fields = ['id', 'title', 'description', 'category', 'provider']
+
+
+class CourseMaterialSerializer(MaterialSerializer):
+    category = CategorySerializer()
+    provider = ProviderSerializer()
+
+    class Meta:
+        model = Material
+        fields = ['id', 'title', 'description', 'category', 'provider']

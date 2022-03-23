@@ -4,7 +4,7 @@ from rest_framework import mixins
 
 from .models import Category, Material, Provider
 from .serializers import CategorySerializer, MaterialSerializer, AddUpdateMaterialSerializer, \
-    ProviderSerializer
+    ProviderSerializer, CourseMaterialSerializer
 
 
 class CategoryViewSet(ModelViewSet):
@@ -21,6 +21,16 @@ class MaterialViewSet(ModelViewSet):
         if self.request.method == 'POST' or self.request.method == 'PATCH':
             return AddUpdateMaterialSerializer
         return MaterialSerializer
+
+
+class CourseMaterialViewSet(ModelViewSet):
+    http_method_names = ['get']
+
+    def get_serializer_class(self):
+        return CourseMaterialSerializer
+
+    def get_queryset(self):
+        return Material.objects.filter(category_id=self.kwargs['category_pk'])
 
 
 class ProviderViewSet(GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
