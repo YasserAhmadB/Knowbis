@@ -33,7 +33,32 @@ class AddUpdateMaterialSerializer(ModelSerializer):
 
     class Meta:
         model = Material
-        fields = ['title', 'description', 'category', 'provider']
+        fields = ['title', 'category', 'provider', 'description', 'brief_description', 'image', 'last_update', 'requirements', 'what_will_learn', 'status']
+
+
+class DeleteMaterialSerializer(ModelSerializer):
+    def validate_title(self, value: str):
+        validate_field(value)
+        return value
+
+    class Meta:
+        model = Material
+        fields = ['id']
+
+
+class BriefMaterialSerializer(ModelSerializer):
+    category = CategorySerializer()
+    provider = ProviderSerializer()
+
+    def validate_title(self, value: str):
+        validate_field(value)
+        return value
+
+    class Meta:
+        model = Material
+        fields = ['id', 'title', 'category', 'provider', 'brief_description', 'image', 'last_update', 'status'
+                  # , 'rating', 'enrolled_students'
+                  ]
 
 
 class MaterialSerializer(ModelSerializer):
@@ -46,13 +71,4 @@ class MaterialSerializer(ModelSerializer):
 
     class Meta:
         model = Material
-        fields = ['id', 'title', 'description', 'category', 'provider']
-
-
-class CourseMaterialSerializer(MaterialSerializer):
-    category = CategorySerializer()
-    provider = ProviderSerializer()
-
-    class Meta:
-        model = Material
-        fields = ['id', 'title', 'description', 'category', 'provider']
+        fields = ['title', 'category', 'provider', 'description', 'image', 'last_update', 'status', 'requirements', 'what_will_learn']
