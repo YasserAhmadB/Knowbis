@@ -21,4 +21,3 @@ urlpatterns = [
     path('', include('authenticator.urls')),
     path('platform/', include('_platform.urls')),
 ]
-

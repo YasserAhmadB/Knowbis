@@ -1,28 +1,69 @@
 import pytest
 from rest_framework import status
-from rest_framework.test import APIClient
+from model_bakery import baker
+
+from _platform.models import Category
+
+
+@pytest.mark.django_db
+class TestGetCategories:
+    def test_get(self, get_category):
+        # Arrange
+        category = baker.make(Category)
+        # Act
+        response = get_category(category)
+
+        # Assert
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data == {
+            'id': category.id,
+            'title': category.title
+        }
+
+
+@pytest.fixture
+def get_category(api_client):
+    def do_get_category(category):
+        return api_client.get(f'/platform/categories/{category.id}/')
+
+    return do_get_category
 
 
 @pytest.mark.django_db
 class TestCreateCategories:
-    def test_create(self):
+    def test_create(self, create_category):
         # Arrange
 
         # Act
-        client = APIClient()
-        response = client.post('/platform/categories/', {'title': 'a'})
-
+        response = create_category({'title': 'a'})
+        print("response:", response)
         # Assert
-
         assert response.status_code == status.HTTP_201_CREATED
 
-    def test_delete(self):
-        # Arrange
 
+@pytest.fixture
+def create_category(api_client):
+    def do_create_category(category):
+        return api_client.post('/platform/categories/', category)
+
+    return do_create_category
+
+
+@pytest.mark.django_db
+class TestUpdateCategories:
+    def test_update(self, update_category):
+        # Arrange
+        category = baker.make(Category)
         # Act
-        client = APIClient()
-        response = client.delete('/platform/categories/4', {})
+        response = update_category(category)
 
         # Assert
-
         assert response.status_code == status.HTTP_204_NO_CONTENT
+
+
+@pytest.fixture
+def update_category(api_client):
+    def do_update_category(category, data):
+        return api_client.patch(f'/platform/categories/{category.id}/')
+
+    return do_update_category
