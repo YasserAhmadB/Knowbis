@@ -55,15 +55,15 @@ class TestUpdateCategories:
         # Arrange
         category = baker.make(Category)
         # Act
-        response = update_category(category)
+        response = update_category(category, {'title': 'New title'})
 
         # Assert
-        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert response.status_code == status.HTTP_200_OK
 
 
 @pytest.fixture
 def update_category(api_client):
     def do_update_category(category, data):
-        return api_client.patch(f'/platform/categories/{category.id}/')
+        return api_client.patch(f'/platform/categories/{category.id}/', data)
 
     return do_update_category
