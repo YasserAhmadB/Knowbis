@@ -1,4 +1,4 @@
-from .views import CategoryViewSet, MaterialViewSet, ProviderViewSet
+from .views import CategoryViewSet, MaterialViewSet, ProviderViewSet, ContentViewSet
 from rest_framework_nested import routers
 
 router = routers.DefaultRouter()
@@ -9,5 +9,8 @@ router.register('instructors', viewset=ProviderViewSet)
 categories_router = routers.NestedDefaultRouter(router, 'categories', lookup='category')
 categories_router.register('courses', MaterialViewSet, basename='category-materials')
 
-urlpatterns = router.urls + categories_router.urls
+contents_router = routers.NestedDefaultRouter(router, 'courses', lookup='material')
+contents_router.register('lectures', ContentViewSet, basename='material-contents')
+
+urlpatterns = router.urls + categories_router.urls + contents_router.urls
 

@@ -9,6 +9,10 @@ import jwt
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework.viewsets import ModelViewSet
+
+from .models import User
+from .serializers import UserSerializer
 
 
 def get_token_auth_header(request):
@@ -64,3 +68,9 @@ def private(request):
 def private_scoped(request):
     return JsonResponse({
                             'message': 'Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.'})
+
+
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    http_method_names = ['get', 'post', 'patch', 'delete']

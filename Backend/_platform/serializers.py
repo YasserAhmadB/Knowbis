@@ -1,7 +1,8 @@
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from Knowbis.serializers_methods import validate_field
-from .models import Category, Material, Provider
+from .models import Category, Material, Provider, Content
 
 
 class ProviderSerializer(ModelSerializer):
@@ -33,7 +34,8 @@ class AddUpdateMaterialSerializer(ModelSerializer):
 
     class Meta:
         model = Material
-        fields = ['title', 'category', 'provider', 'description', 'brief_description', 'image', 'last_update', 'requirements', 'what_will_learn', 'status']
+        fields = ['title', 'category', 'provider', 'description', 'brief_description', 'image', 'last_update',
+                  'requirements', 'what_will_learn', 'status']
 
 
 class DeleteMaterialSerializer(ModelSerializer):
@@ -71,4 +73,43 @@ class MaterialSerializer(ModelSerializer):
 
     class Meta:
         model = Material
-        fields = ['title', 'category', 'provider', 'description', 'image', 'last_update', 'status', 'requirements', 'what_will_learn']
+        fields = ['title', 'category', 'provider', 'description', 'image', 'last_update', 'status', 'requirements',
+                  'what_will_learn'
+                  # , 'rating', 'enrolled_students'
+                  ]
+
+
+class AddUpdateContentSerializer(ModelSerializer):
+    class Meta:
+        model = Content
+        fields = ['title', 'material_id', 'brief_description', 'content', 'video', 'document', 'order']
+
+
+class AddContentSerializer(AddUpdateContentSerializer):
+    def save(self, **kwargs):
+        material_id = self.context['material_id']
+        print("material_id:", material_id)
+        self.instance = Content.objects.create(material_id=material_id, **self.validated_data)
+        return self.instance
+
+
+class UpdateContentSerializer(AddUpdateContentSerializer):
+    pass
+
+
+class DeleteContentSerializer(ModelSerializer):
+    class Meta:
+        model = Content
+        fields = ['id']
+
+
+class BriefContentSerializer(ModelSerializer):
+    class Meta:
+        model = Content
+        fields = ['id', 'material', 'title', 'brief_description', 'content', 'video', 'document', 'order']
+
+
+class ContentSerializer(ModelSerializer):
+    class Meta:
+        model = Content
+        fields = ['id', 'material', 'title', 'brief_description', 'content', 'video', 'document', 'order']
