@@ -13,4 +13,3 @@ contents_router = routers.NestedDefaultRouter(router, 'courses', lookup='materia
 contents_router.register('lectures', ContentViewSet, basename='material-contents')
 
 urlpatterns = router.urls + categories_router.urls + contents_router.urls
-

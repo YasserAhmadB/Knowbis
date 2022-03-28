@@ -2,10 +2,12 @@
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import mixins
 
-from .models import Category, Material, Provider, Content
-from .serializers import CategorySerializer, MaterialSerializer, AddUpdateMaterialSerializer, \
-    ProviderSerializer, DeleteMaterialSerializer, BriefMaterialSerializer, AddContentSerializer, UpdateContentSerializer, \
-    DeleteContentSerializer, ContentSerializer, BriefContentSerializer
+from .models.Provider import Provider, ProviderSerializer
+from .models.Category import Category, CategorySerializer
+from .models.Material import Material, AddUpdateMaterialSerializer, DeleteMaterialSerializer, BriefMaterialSerializer, \
+    MaterialSerializer
+from .models.Content import Content, AddContentSerializer, UpdateContentSerializer, DeleteContentSerializer, \
+    BriefContentSerializer, ContentSerializer
 
 
 class CategoryViewSet(ModelViewSet):

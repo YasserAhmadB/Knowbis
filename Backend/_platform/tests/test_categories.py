@@ -67,3 +67,23 @@ def update_category(api_client):
         return api_client.patch(f'/platform/categories/{category.id}/', data)
 
     return do_update_category
+
+
+@pytest.mark.django_db
+class TestDeleteCategories:
+    def test_delete(self, delete_category):
+        # Arrange
+        category = baker.make(Category)
+        # Act
+        response = delete_category(category, {})
+
+        # Assert
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+
+
+@pytest.fixture
+def delete_category(api_client):
+    def do_delete_category(category, data):
+        return api_client.delete(f'/platform/categories/{category.id}/', data)
+
+    return do_delete_category
