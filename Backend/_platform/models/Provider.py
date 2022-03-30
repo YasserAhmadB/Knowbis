@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
+from rest_framework import mixins
 from rest_framework.serializers import ModelSerializer
+from rest_framework.viewsets import GenericViewSet
 
 
 class Provider(models.Model):
@@ -23,3 +25,10 @@ class ProviderSerializer(ModelSerializer):
     class Meta:
         model = Provider
         fields = ['major', 'user']
+
+
+class ProviderViewSet(GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                      mixins.DestroyModelMixin):
+    serializer_class = ProviderSerializer
+    queryset = Provider.objects.all()
+    http_method_names = ['get', 'post', 'patch', 'delete']

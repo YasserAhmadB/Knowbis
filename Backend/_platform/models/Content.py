@@ -1,5 +1,6 @@
 from django.db import models
 from rest_framework.serializers import ModelSerializer
+from rest_framework.viewsets import ModelViewSet
 
 from _platform.models.Document import Document
 from _platform.models.Material import Material
@@ -52,3 +53,25 @@ class ContentSerializer(ModelSerializer):
     class Meta:
         model = Content
         fields = ['id', 'material', 'title', 'brief_description', 'content', 'video', 'document', 'order']
+
+
+class ContentViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'patch', 'delete']
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AddContentSerializer
+        elif self.request.method == 'PATCH':
+            return UpdateContentSerializer
+        elif self.request.method == 'DELETE':
+            return DeleteContentSerializer
+        if self.action == 'list':  # if the endpoint is /materials it will return a brief material
+            return BriefContentSerializer
+        return ContentSerializer
+
+    def get_queryset(self):
+        queryset = Content.objects.filter(material_id=self.kwargs['material_pk'])
+        return queryset
+
+    def get_serializer_context(self):
+        return {'material_id': self.kwargs['material_pk']}

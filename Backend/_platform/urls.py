@@ -1,4 +1,7 @@
-from .views import CategoryViewSet, MaterialViewSet, ProviderViewSet, ContentViewSet
+from .models.Category import CategoryViewSet
+from .models.Material import MaterialViewSet
+from .models.Provider import ProviderViewSet
+from .models.Content import ContentViewSet
 from rest_framework_nested import routers
 
 router = routers.DefaultRouter()

@@ -1,5 +1,6 @@
 from django.db import models
 from rest_framework.serializers import ModelSerializer
+from rest_framework.viewsets import ModelViewSet
 
 from Knowbis.serializers_methods import validate_field
 from _platform.models.Category import Category, CategorySerializer
@@ -88,3 +89,17 @@ class MaterialSerializer(ModelSerializer):
                   'what_will_learn'
                   # , 'rating', 'enrolled_students'
                   ]
+
+
+class MaterialViewSet(ModelViewSet):
+    queryset = Material.objects.all()
+    http_method_names = ['get', 'post', 'patch', 'delete']
+
+    def get_serializer_class(self):
+        if self.request.method in ['POST', 'PATCH']:
+            return AddUpdateMaterialSerializer
+        elif self.request.method == 'DELETE':
+            return DeleteMaterialSerializer
+        if self.action == 'list':  # if the endpoint is /materials it will return a brief material
+            return BriefMaterialSerializer
+        return MaterialSerializer
