@@ -10,4 +10,6 @@ urlpatterns = [
     path('api/private/', views.private),
     path('api/public/', views.public),
     path('api/private-scoped/', views.private_scoped),
+    path('a/', views.get_token),
+    # path('', views.get_test),
 ] + router.urls

@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',  # For debug toolbar
+    'authenticator.Middleware.Auth0Middleware',
 ]
 
 ROOT_URLCONF = 'Knowbis.urls'
@@ -145,7 +147,7 @@ AUTH_USER_MODEL = 'authenticator.User'
 
 REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
+    #     # 'rest_framework.permissions.IsAuthenticated',
     # ),
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
     #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',

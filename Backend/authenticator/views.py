@@ -6,9 +6,10 @@ from django.shortcuts import render
 from functools import wraps
 import jwt
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .models import User
@@ -74,3 +75,21 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
+
+
+# @api_view(['GET', 'PUT', 'DELETE'])
+def get_token(request):
+    print('access_token')
+    print('access_token')
+    print('access_token')
+    print('access_token')
+    print(request.GET.keys())
+    return HttpResponse(f'request')
+
+
+def get_test(request):
+    print('get_test')
+    print('get_test')
+    print('get_test')
+    print('get_test')
+    return HttpResponse('h')

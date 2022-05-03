@@ -16,9 +16,6 @@ class Category(models.Model):
 
 
 class CategorySerializer(ModelSerializer):
-    def validate_title(self, value: str):
-        validate_field(value)
-        return value
 
     class Meta:
         model = Category
@@ -29,3 +26,4 @@ class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
+
