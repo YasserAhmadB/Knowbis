@@ -16,7 +16,6 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.1.2', '192.168.1.6', '192.168.1.6:3000', '192.168.56.1', '127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'debug_toolbar',
     'rest_framework',
     'authenticator',
@@ -50,11 +49,10 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.RemoteUserMiddleware',  # For auth0
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',  # For debug toolbar
-    'authenticator.Middleware.Auth0Middleware',
+
 ]
 
 ROOT_URLCONF = 'Knowbis.urls'
@@ -77,19 +75,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Knowbis.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'Knowbis',
-#         'HOST': 'localhost',
-#         'USER': 'root',
-#         'PASSWORD': 'root'
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -115,7 +103,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -127,7 +114,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
@@ -136,55 +122,7 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-AUTH_USER_MODEL = 'authenticator.User'
-
-REST_FRAMEWORK = {
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     # 'rest_framework.permissions.IsAuthenticated',
-    # ),
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    #     'rest_framework.authentication.SessionAuthentication',
-    #     'rest_framework.authentication.BasicAuthentication',
-    # ),
-}
-
-JWT_AUDIENCE = 'https://dev-f76uszn5.us.auth0.com/api/v2/'
-JWT_ISSUER = 'dev-f76uszn5.us.auth0.com'
-
-JWT_AUTH = {
-    'JWT_PAYLOAD_GET_USERNAME_HANDLER':
-        'auth0authorization.utils.jwt_get_username_from_payload_handler',
-    'JWT_DECODE_HANDLER':
-        'auth0authorization.utils.jwt_decode_token',
-    'JWT_ALGORITHM': 'RS256',
-    'JWT_AUDIENCE': JWT_AUDIENCE,
-    'JWT_ISSUER': JWT_ISSUER,
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-}
-
-# auth0 settings
-AUTH0_DOMAIN = 'dev-yw768gnr.us.auth0.com'
-CLIENT_ID = 'aySDWRpIOCwXWOBaDQ8XedstFgtoFPhQ'
-CLIENT_SECRET = 'tj9mBovXkqyjfeI8AwmaagBBS8pG5KIkN9P-mz4ClpRnmT8i53m3qsPrwxWuQi32'
-AUTH0_ALGORITHMS = ['RS256']
-AUTH0_API_AUDIENCE = 'https://drf-auth0/'
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'django.contrib.auth.backends.RemoteUserBackend',
-]
-
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    "192.168.1.2"
-    # ...
-]  # For debug toolbar
