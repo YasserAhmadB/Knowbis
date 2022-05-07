@@ -1,10 +1,13 @@
 from django.db import models
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework.viewsets import ModelViewSet
 
 from Knowbis.serializers_methods import validate_field
 from _platform.models.Category import Category, CategorySerializer
 from _platform.models.Provider import Provider, ProviderSerializer
+from authorizer.permissions import IsMaterialProviderOrReadOnly
 
 
 class Material(models.Model):  # Course
@@ -94,6 +97,13 @@ class MaterialSerializer(ModelSerializer):
 class MaterialViewSet(ModelViewSet):
     queryset = Material.objects.all()
     http_method_names = ['get', 'post', 'patch', 'delete']
+    permission_classes = [IsMaterialProviderOrReadOnly]
+
+    @action(detail=False)
+    def mine(self, request):
+        queryset = Material.objects.filter(provider__user_id=request.user.id)
+        serializer = self.get_serializer_class()(queryset, many=True)
+        return Response(serializer.data)
 
     def get_serializer_class(self):
         if self.request.method in ['POST', 'PATCH']:

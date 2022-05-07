@@ -4,6 +4,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from _platform.models.Document import Document
 from _platform.models.Material import Material
+from authorizer.permissions import IsContentProviderOrReadOnly
 
 
 class Content(models.Model):  # Lecture
@@ -55,7 +56,8 @@ class ContentSerializer(ModelSerializer):
         fields = ['id', 'material', 'title', 'brief_description', 'content', 'video', 'document', 'order']
 
 
-class ContentViewSet(ModelViewSet):
+class ContentViewSet(ModelViewSet):  # Lectures
+    permission_classes = [IsContentProviderOrReadOnly]
     http_method_names = ['get', 'post', 'patch', 'delete']
 
     def get_serializer_class(self):
