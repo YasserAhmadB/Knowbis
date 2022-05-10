@@ -83,7 +83,7 @@ class MaterialSerializer(ModelSerializer):
     provider = ProviderSerializer()
 
     def validate_title(self, value: str):
-        validate_field(value)
+        # validate_field(value)
         return value
 
     class Meta:
@@ -104,6 +104,43 @@ class MaterialViewSet(ModelViewSet):
         queryset = Material.objects.filter(provider__user_id=request.user.id)
         serializer = self.get_serializer_class()(queryset, many=True)
         return Response(serializer.data)
+
+    @action(detail=False)
+    def enrolled(self, request):
+        from _platform.models import EnrolledToMaterial
+        from _platform.models.EnrolledToMaterial import EnrolledToMaterialSerializer
+
+        queryset = EnrolledToMaterial.objects.filter(audience__user_id=request.user.id)
+        print('queryset:', queryset)
+        serializer = EnrolledToMaterialSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True)
+    def enroll(self, request, pk):
+        from _platform.models import EnrolledToMaterial
+        from _platform.models import Audience
+
+        enrolled_to_material = EnrolledToMaterial()
+        enrolled_to_material.material_id = pk
+        enrolled_to_material.audience = Audience.objects.get(user_id=request.user.id)
+
+        try:
+            enrolled_to_material.save()
+        except:
+            return Response('You are already enrolled in this course')
+
+        return Response('ok')
+
+    @action(detail=True)
+    def drop(self, request, pk):
+        from _platform.models import EnrolledToMaterial
+        try:
+            enrolled_to_material = EnrolledToMaterial.objects.get(material_id=pk, audience__user_id=request.user.id)
+            enrolled_to_material.delete()
+        except:
+            return Response('You are not enrolled in the course')
+
+        return Response('ok')
 
     def get_serializer_class(self):
         if self.request.method in ['POST', 'PATCH']:

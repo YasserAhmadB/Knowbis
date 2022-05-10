@@ -1,3 +1,4 @@
+from .models.Audience import AudienceViewSet
 from .models.Category import CategoryViewSet
 from .models.Material import MaterialViewSet
 from .models.Provider import ProviderViewSet
@@ -8,6 +9,7 @@ router = routers.DefaultRouter()
 router.register('categories', viewset=CategoryViewSet)
 router.register('courses', viewset=MaterialViewSet)
 router.register('instructors', viewset=ProviderViewSet)
+router.register('audiences', viewset=AudienceViewSet)
 
 categories_router = routers.NestedDefaultRouter(router, 'categories', lookup='category')
 categories_router.register('courses', MaterialViewSet, basename='category-materials')
