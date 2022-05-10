@@ -32,6 +32,11 @@ class Material(models.Model):  # Course
     requirements = models.CharField(max_length=1255, null=True)
     what_will_learn = models.CharField(max_length=1255)
 
+    permissions = [
+        ('block_material', 'Can block a provider'),
+        ('unblock_material', 'Can unblock a provider'),
+    ]
+
     # rating will be in the serializer
     # the count of enrolled students will be in the serializer
 

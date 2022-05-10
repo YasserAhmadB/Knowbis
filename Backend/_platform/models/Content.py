@@ -2,7 +2,6 @@ from django.db import models
 from rest_framework.serializers import ModelSerializer
 from rest_framework.viewsets import ModelViewSet
 
-from _platform.models.Document import Document
 from _platform.models.Material import Material
 from authorizer.permissions import IsContentProviderOrReadOnly
 
@@ -11,19 +10,15 @@ class Content(models.Model):  # Lecture
     title = models.CharField(max_length=255)
     material = models.ForeignKey(to=Material, on_delete=models.CASCADE)
     brief_description = models.CharField(max_length=1255)
-    content = models.CharField(max_length=2555)
+    text = models.CharField(max_length=2555)
     video = models.FileField()
-    document = models.ForeignKey(to=Document, on_delete=models.CASCADE, null=True)
     order = models.PositiveIntegerField()
-
-    # class Meta:
-    #     unique_together = (("id", "order"),)
 
 
 class AddUpdateContentSerializer(ModelSerializer):
     class Meta:
         model = Content
-        fields = ['title', 'material_id', 'brief_description', 'content', 'video', 'document', 'order']
+        fields = ['title', 'material_id', 'brief_description', 'text', 'video', 'document', 'order']
 
 
 class AddContentSerializer(AddUpdateContentSerializer):
@@ -47,13 +42,13 @@ class DeleteContentSerializer(ModelSerializer):
 class BriefContentSerializer(ModelSerializer):
     class Meta:
         model = Content
-        fields = ['id', 'material', 'title', 'brief_description', 'content', 'video', 'document', 'order']
+        fields = ['id', 'material', 'title', 'brief_description', 'text', 'video', 'document', 'order']
 
 
 class ContentSerializer(ModelSerializer):
     class Meta:
         model = Content
-        fields = ['id', 'material', 'title', 'brief_description', 'content', 'video', 'document', 'order']
+        fields = ['id', 'material', 'title', 'brief_description', 'text', 'video', 'document', 'order']
 
 
 class ContentViewSet(ModelViewSet):  # Lectures
