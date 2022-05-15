@@ -26,7 +26,7 @@ class Material(models.Model):  # Course
     description = models.CharField(max_length=1255, null=True)
     brief_description = models.CharField(max_length=1255, null=True)
 
-    image = models.ImageField()
+    image = models.ImageField(null=True)
     last_update = models.DateField(auto_now=True)
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=PRIVATE_CHOICE)
     requirements = models.CharField(max_length=1255, null=True)

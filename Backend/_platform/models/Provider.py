@@ -11,17 +11,6 @@ class Provider(models.Model):
     pic = models.ImageField(null=True)
     description = models.CharField(max_length=1255, null=True)
 
-    def __str__(self):
-        return f'{self.user.first_name}'
-
-    class Meta:
-        ordering = ['user__first_name']
-        permissions = [
-            ('block_provider', 'Can block a provider'),
-            ('unblock_provider', 'Can unblock a provider'),
-            ('verify_provider', 'Can verify a provider'),
-        ]
-
 
 class ProviderSerializer(serializers.ModelSerializer):  # Logged in user
     user = settings.DJOSER['SERIALIZERS']['user']
@@ -38,18 +27,15 @@ class UpdateProviderSerializer(serializers.ModelSerializer):
 
 
 class CreateProviderSerializer(serializers.ModelSerializer):
-    user_id = serializers.SerializerMethodField()
-
-    def create(self, validated_data):
-        print('self.context["user_id"]:', self.context['user_id'])
-        validated_data['user_id'] = self.context['user_id']
-        provider = Provider(**validated_data)
-        provider.save()
-        return provider
-
     class Meta:
         model = Provider
-        fields = ['id', 'user_id', 'pic', 'description']
+        fields = ['pic', 'description']
+
+    def save(self, **kwargs):
+        user_id = self.context['user_id']
+        provider = Provider.objects.create(user_id=user_id, **self.validated_data)
+        provider.save()
+        return provider
 
 
 class ProviderViewSet(GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,

@@ -7,7 +7,7 @@ from _platform.models import Category
 
 @pytest.mark.django_db
 class TestGetCategories:
-    def test_get(self, get_category):
+    def test_get_anonymous_200(self, get_category):
         # Arrange
         category = baker.make(Category)
         # Act
@@ -31,12 +31,41 @@ def get_category(api_client):
 
 @pytest.mark.django_db
 class TestCreateCategories:
-    def test_create(self, create_category):
+    def test_if_anonymous_returns_401(self, create_category):
         # Arrange
 
         # Act
         response = create_category({'title': 'a'})
-        print("response:", response)
+        # Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_provider_returns_403(self, create_category, authenticate_provider):
+        # Arrange
+        authenticate_provider()
+
+        # Act
+        response = create_category({'title': 'a'})
+
+        # Assert
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_if_audience_returns_403(self, create_category, authenticate_audience):
+        # Arrange
+        authenticate_audience()
+
+        # Act
+        response = create_category({'title': 'a'})
+
+        # Assert
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_if_admin_returns_201(self, create_category, authenticate):
+        # Arrange
+        authenticate(True)
+
+        # Act
+        response = create_category({'title': 'a'})
+
         # Assert
         assert response.status_code == status.HTTP_201_CREATED
 
@@ -51,9 +80,43 @@ def create_category(api_client):
 
 @pytest.mark.django_db
 class TestUpdateCategories:
-    def test_update(self, update_category):
+    def test_if_anonymous_returns_401(self, update_category):
         # Arrange
         category = baker.make(Category)
+
+        # Act
+        response = update_category(category, {'title': 'New title'})
+
+        # Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_provider_returns_403(self, update_category, authenticate_provider):
+        # Arrange
+        authenticate_provider()
+        category = baker.make(Category)
+
+        # Act
+        response = update_category(category, {'title': 'New title'})
+
+        # Assert
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_if_audience_returns_403(self, update_category, authenticate_audience):
+        # Arrange
+        authenticate_audience()
+        category = baker.make(Category)
+
+        # Act
+        response = update_category(category, {'title': 'New title'})
+
+        # Assert
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_if_admin_returns_201(self, update_category, authenticate):
+        # Arrange
+        authenticate(True)
+        category = baker.make(Category)
+
         # Act
         response = update_category(category, {'title': 'New title'})
 
@@ -71,9 +134,43 @@ def update_category(api_client):
 
 @pytest.mark.django_db
 class TestDeleteCategories:
-    def test_delete(self, delete_category):
+    def test_if_anonymous_returns_401(self, delete_category):
         # Arrange
         category = baker.make(Category)
+
+        # Act
+        response = delete_category(category, {})
+
+        # Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_provider_returns_403(self, delete_category, authenticate_provider):
+        # Arrange
+        authenticate_provider()
+        category = baker.make(Category)
+
+        # Act
+        response = delete_category(category, {})
+
+        # Assert
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_if_audience_returns_403(self, delete_category, authenticate_audience):
+        # Arrange
+        authenticate_audience()
+        category = baker.make(Category)
+
+        # Act
+        response = delete_category(category, {})
+
+        # Assert
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_if_admin_returns_201(self, delete_category, authenticate):
+        # Arrange
+        authenticate(True)
+        category = baker.make(Category)
+
         # Act
         response = delete_category(category, {})
 

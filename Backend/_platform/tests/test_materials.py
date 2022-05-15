@@ -6,6 +6,7 @@ from _platform.models import Material
 
 
 @pytest.mark.django_db
+@pytest.mark.skip
 class TestGetMaterials:
     def test_get(self, get_material):
         # Arrange
@@ -39,6 +40,7 @@ def get_material(api_client):
 
 
 @pytest.mark.django_db
+@pytest.mark.skip
 class TestCreateMaterials:
     def test_create(self, create_material):
         # Arrange
@@ -59,6 +61,7 @@ def create_material(api_client):
 
 
 @pytest.mark.django_db
+@pytest.mark.skip
 class TestUpdateMaterials:
     def test_update(self, update_material):
         # Arrange
@@ -79,6 +82,7 @@ def update_material(api_client):
 
 
 @pytest.mark.django_db
+@pytest.mark.skip
 class TestDeleteMaterials:
     def test_delete(self, delete_material):
         # Arrange
