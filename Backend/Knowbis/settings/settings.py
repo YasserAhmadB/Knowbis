@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # 'django_extensions',
     'debug_toolbar',
     'rest_framework',
+    'corsheaders',
     # 'social_django',
     # Not needed to add but pip install required. Adding it here will create additional acces to social user via admin
     'authenticator',

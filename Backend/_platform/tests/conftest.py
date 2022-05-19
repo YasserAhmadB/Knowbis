@@ -24,7 +24,7 @@ def authenticate_provider(api_client):
         user = baker.make(User)
         _ = api_client.force_authenticate(user=user)
         provider = baker.make(Provider, user_id=user.id)
-        return _
+        return provider
     return do_authenticate
 
 

@@ -2,40 +2,101 @@ import pytest
 from rest_framework import status
 from model_bakery import baker
 
-from _platform.models import Material
+from _platform.models import Material, Provider
 
 
 @pytest.mark.django_db
-@pytest.mark.skip
 class TestGetMaterials:
-    def test_get(self, get_material):
+    def test_get_all_materials(self, get_material, authenticate_provider):
         # Arrange
         material = baker.make(Material)
+
         # Act
         response = get_material(material)
+        data = response.data
 
         # Assert
         assert response.status_code == status.HTTP_200_OK
-        assert response.data == {
-            'id': material.id,
-            'title': material.title,
-            'category': material.category,
-            'provider': material.provider,
-            'description': material.description,
-            'brief_description': material.brief_description,
-            'image': material.image,
-            'last_update': material.last_update,
-            'status': material.status,
-            'requirements': material.requirements,
-            'what_will_learn': material.what_will_learn
-        }
+
+        assert data['id'] == material.id
+        assert data['title'] == material.title
+        assert data['category']['id'] == material.category.id
+        assert data['provider']['id'] == material.provider.id
+        assert data['description'] == material.description
+        assert data['image'] == material.image
+        assert data['last_update'] == str(material.last_update)
+        assert data['status'] == material.status
+        assert data['requirements'] == material.requirements
+        assert data['what_will_learn'] == material.what_will_learn
+
+    def test_get_uploaded_materials(self, get_uploaded_material, authenticate_provider):
+        # Arrange
+        provider = authenticate_provider()
+        material = baker.make(Material, provider=provider)
+
+        provider2 = baker.make(Provider)
+        material2 = baker.make(Material, provider=provider2)
+
+        # Act
+        response = get_uploaded_material()
+        data = response.data
+
+        # Assert
+        assert response.status_code == status.HTTP_200_OK
+        assert len(data) == 1
+        data = data[0]
+
+        assert data['id'] == material.id
+        assert data['title'] == material.title
+        assert data['category']['id'] == material.category.id
+        assert data['provider']['id'] == material.provider.id
+        assert data['description'] == material.description
+        assert data['image'] == material.image
+        assert data['last_update'] == str(material.last_update)
+        assert data['status'] == material.status
+        assert data['requirements'] == material.requirements
+        assert data['what_will_learn'] == material.what_will_learn
+
+    def test_get_enrolled_materials(self, get_uploaded_material, authenticate_provider):
+        # Arrange
+        provider = authenticate_provider()
+        material = baker.make(Material, provider=provider)
+
+        provider2 = baker.make(Provider)
+        material2 = baker.make(Material, provider=provider2)
+
+        # Act
+        response = get_uploaded_material()
+        data = response.data
+
+        # Assert
+        assert response.status_code == status.HTTP_200_OK
+        assert len(data) == 1
+        data = data[0]
+
+        assert data['id'] == material.id
+        assert data['title'] == material.title
+        assert data['category']['id'] == material.category.id
+        assert data['provider']['id'] == material.provider.id
+        assert data['description'] == material.description
+        assert data['image'] == material.image
+        assert data['last_update'] == str(material.last_update)
+        assert data['status'] == material.status
+        assert data['requirements'] == material.requirements
+        assert data['what_will_learn'] == material.what_will_learn
 
 
 @pytest.fixture
 def get_material(api_client):
     def do_get_material(material):
-        return api_client.get(f'/platform/materials/{material.id}/')
+        return api_client.get(f'/platform/courses/{material.id}/')
+    return do_get_material
 
+
+@pytest.fixture
+def get_uploaded_material(api_client):
+    def do_get_material():
+        return api_client.get(f'/platform/courses/mine/')
     return do_get_material
 
 
@@ -48,6 +109,7 @@ class TestCreateMaterials:
         # Act
         response = create_material({'title': 'a'})
         print("response:", response)
+
         # Assert
         assert response.status_code == status.HTTP_201_CREATED
 
