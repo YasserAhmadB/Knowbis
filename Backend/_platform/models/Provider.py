@@ -3,7 +3,7 @@ from django.conf import settings
 from rest_framework import mixins
 from rest_framework import serializers
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 
 class Provider(models.Model):
@@ -38,10 +38,9 @@ class CreateProviderSerializer(serializers.ModelSerializer):
         return provider
 
 
-class ProviderViewSet(GenericViewSet, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
-                      mixins.DestroyModelMixin):
-    permission_classes = [IsAuthenticated]
-    serializer_class = ProviderSerializer
+class ProviderViewSet(ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    # serializer_class = ProviderSerializer
     queryset = Provider.objects.all()
     http_method_names = ['get', 'post', 'patch', 'delete']
 

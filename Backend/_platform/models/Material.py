@@ -1,5 +1,6 @@
 from django.db import models
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework.viewsets import ModelViewSet
@@ -24,7 +25,7 @@ class Material(models.Model):  # Course
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
 
     description = models.CharField(max_length=1255, null=True)
-    brief_description = models.CharField(max_length=1255, null=True)
+    brief_description = models.CharField(max_length=1255, null=True)  # x
 
     image = models.ImageField(null=True)
     last_update = models.DateField(auto_now=True)
@@ -100,12 +101,17 @@ class MaterialSerializer(ModelSerializer):
 
 
 class MaterialViewSet(ModelViewSet):
-    queryset = Material.objects.all()
+    queryset = Material.objects\
+        .select_related('category')\
+        .select_related('provider')\
+        .all()
     http_method_names = ['get', 'post', 'patch', 'delete']
     permission_classes = [IsMaterialProviderOrReadOnly]
+    filter_backends = [SearchFilter]
+    search_fields = ['title']
 
     @action(detail=False)
-    def mine(self, request):
+    def uploaded(self, request):
         queryset = Material.objects.filter(provider__user_id=request.user.id)
         serializer = self.get_serializer_class()(queryset, many=True)
         return Response(serializer.data)

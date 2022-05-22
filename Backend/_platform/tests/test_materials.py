@@ -96,7 +96,7 @@ def get_material(api_client):
 @pytest.fixture
 def get_uploaded_material(api_client):
     def do_get_material():
-        return api_client.get(f'/platform/courses/mine/')
+        return api_client.get(f'/platform/courses/uploaded/')
     return do_get_material
 
 
