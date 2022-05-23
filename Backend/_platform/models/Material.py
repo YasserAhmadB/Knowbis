@@ -32,6 +32,7 @@ class Material(models.Model):  # Course
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=PRIVATE_CHOICE)
     requirements = models.CharField(max_length=1255, null=True)
     what_will_learn = models.CharField(max_length=1255)
+    duration = models.TimeField()
 
     permissions = [
         ('block_material', 'Can block a provider'),
@@ -56,7 +57,7 @@ class AddUpdateMaterialSerializer(ModelSerializer):
     class Meta:
         model = Material
         fields = ['title', 'category', 'provider', 'description', 'brief_description', 'image', 'last_update',
-                  'requirements', 'what_will_learn', 'status']
+                  'requirements', 'what_will_learn', 'status', 'duration']
 
 
 class DeleteMaterialSerializer(ModelSerializer):
@@ -79,7 +80,7 @@ class BriefMaterialSerializer(ModelSerializer):
 
     class Meta:
         model = Material
-        fields = ['id', 'title', 'category', 'provider', 'brief_description', 'image', 'last_update', 'status'
+        fields = ['id', 'title', 'category', 'provider', 'brief_description', 'image', 'last_update', 'status', 'duration'
                   # , 'rating', 'enrolled_students'
                   ]
 
@@ -89,13 +90,13 @@ class MaterialSerializer(ModelSerializer):
     provider = ProviderSerializer()
 
     def validate_title(self, value: str):
-        # validate_field(value)
+        validate_field(value)
         return value
 
     class Meta:
         model = Material
         fields = ['id', 'title', 'category', 'provider', 'description', 'image', 'last_update', 'status', 'requirements',
-                  'what_will_learn'
+                  'what_will_learn', 'duration'
                   # , 'rating', 'enrolled_students'
                   ]
 

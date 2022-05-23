@@ -22,6 +22,7 @@ class TestGetMaterials:
         assert data['title'] == material.title
         assert data['category']['id'] == material.category.id
         assert data['provider']['id'] == material.provider.id
+        assert data['duration'] == str(material.duration)
         assert data['description'] == material.description
         assert data['image'] == material.image
         assert data['last_update'] == str(material.last_update)
@@ -108,7 +109,6 @@ class TestCreateMaterials:
 
         # Act
         response = create_material({'title': 'a'})
-        print("response:", response)
 
         # Assert
         assert response.status_code == status.HTTP_201_CREATED

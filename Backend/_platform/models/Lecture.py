@@ -1,5 +1,4 @@
 from django.db import models
-from rest_framework.generics import get_object_or_404
 from rest_framework.serializers import ModelSerializer
 from rest_framework.viewsets import ModelViewSet
 
@@ -13,12 +12,13 @@ class Lecture(models.Model):  # Lecture
     brief_description = models.CharField(max_length=1255)
     text = models.CharField(max_length=2555)
     video = models.URLField()
+    duration = models.TimeField()
 
 
 class AddUpdateLectureSerializer(ModelSerializer):
     class Meta:
         model = Lecture
-        fields = ['title', 'brief_description', 'text', 'video']
+        fields = ['title', 'brief_description', 'text', 'video', 'duration']
 
 
 class AddLectureSerializer(AddUpdateLectureSerializer):
@@ -36,12 +36,14 @@ class UpdateLectureSerializer(AddUpdateLectureSerializer):
 class LectureSerializer(ModelSerializer):
     class Meta:
         model = Lecture
-        fields = ['id', 'title', 'brief_description', 'text', 'video']
+        fields = ['id', 'title', 'brief_description', 'text', 'video', 'duration']
 
 
 class LecturesViewSet(ModelViewSet):  # Lectures
     http_method_names = ['get', 'post', 'patch', 'delete']
-    permission_classes = [IsLectureProviderOrReadOnly]  # Does not work (https://www.django-rest-framework.org/api-guide/permissions/)
+
+    # Does not work (https://www.django-rest-framework.org/api-guide/permissions/)
+    permission_classes = [IsLectureProviderOrReadOnly]
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -56,4 +58,3 @@ class LecturesViewSet(ModelViewSet):  # Lectures
 
     def get_serializer_context(self):
         return {'material_id': self.kwargs['material_pk']}
-
