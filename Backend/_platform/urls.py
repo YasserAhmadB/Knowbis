@@ -2,7 +2,7 @@ from .models.Audience import AudienceViewSet
 from .models.Category import CategoryViewSet
 from .models.Material import MaterialViewSet
 from .models.Provider import ProviderViewSet
-from .models.Content import ContentViewSet
+from .models.Lecture import LecturesViewSet
 from rest_framework_nested import routers
 
 router = routers.DefaultRouter()
@@ -15,6 +15,6 @@ categories_router = routers.NestedDefaultRouter(router, 'categories', lookup='ca
 categories_router.register('courses', MaterialViewSet, basename='category-materials')
 
 contents_router = routers.NestedDefaultRouter(router, 'courses', lookup='material')
-contents_router.register('lectures', ContentViewSet, basename='material-contents')
+contents_router.register('lectures', LecturesViewSet, basename='material-lectures')
 
 urlpatterns = router.urls + categories_router.urls + contents_router.urls

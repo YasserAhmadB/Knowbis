@@ -16,11 +16,9 @@ class IsMaterialProviderOrReadOnly(permissions.BasePermission):
         return obj.provider.user == request.user
 
 
-class IsContentProviderOrReadOnly(permissions.BasePermission):
+class IsLectureProviderOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return True
-        # if request.method in permissions.SAFE_METHODS:
-        #     return True
-        # print('obj.material.provider.user == request.user:', obj.material.provider.user == request.user)
-        # return obj.material.provider.user == request.user
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.material.provider.user == request.user
 

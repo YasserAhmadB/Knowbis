@@ -1,5 +1,5 @@
 from .Category import Category
-from .Content import Content
+from .Lecture import Lecture
 from .Document import Document
 from .Material import Material
 from .Provider import Provider

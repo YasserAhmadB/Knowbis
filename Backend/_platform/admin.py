@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models.Category import Category
 from .models.Provider import Provider
 from .models.Material import Material
-from .models.Content import Content
+from .models.Lecture import Lecture
 from .models.Document import Document
 from .models.Audience import Audience
 from .models.EnrolledToMaterial import EnrolledToMaterial
@@ -39,7 +39,7 @@ class MaterialAdmin(admin.ModelAdmin):
     list_filter = ('category', 'provider', 'last_update')
 
 
-@admin.register(Content)
+@admin.register(Lecture)
 class ContentAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -48,7 +48,6 @@ class ContentAdmin(admin.ModelAdmin):
         'brief_description',
         'text',
         'video',
-        'order',
     )
     list_filter = ('material',)
 
