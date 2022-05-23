@@ -155,18 +155,6 @@ class MaterialViewSet(ModelViewSet):
 
         return Response('ok')
 
-    @action(detail=True, methods=['get', 'delete', 'put'])
-    def rate(self, request, pk):
-        from _platform.models.Rate import AudienceRateMaterial
-        from _platform.models import Audience
-
-        rating = AudienceRateMaterial()
-        rating.material_id = pk
-        rating.audience = Audience.objects.get(user_id=request.user.id)
-        rating.save()
-
-        return Response('ok')
-
     @action(detail=True)
     def drop(self, request, pk):
         from _platform.models import EnrolledToMaterial

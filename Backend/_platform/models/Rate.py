@@ -35,6 +35,7 @@ class AudienceRateMaterialViewSet(ModelViewSet):
     http_method_names = ['post']
 
     def get_serializer_context(self):
-        return {'material_id': self.kwargs['material_pk'],
-                'audience_id': Audience.objects.get(user_id=self.request.user).id,
-                }
+        return {
+            'material_id': self.kwargs['material_pk'],
+            'audience_id': Audience.objects.get(user_id=self.request.user).id,
+        }

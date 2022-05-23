@@ -20,6 +20,6 @@ categories_router.register('courses', MaterialViewSet, basename='category-materi
 contents_router = routers.NestedDefaultRouter(router, 'courses', lookup='material')
 
 contents_router.register('lectures', LecturesViewSet, basename='material-lectures')
-contents_router.register('rates', AudienceRateMaterialViewSet, basename='material-rates')
+contents_router.register('rate', AudienceRateMaterialViewSet, basename='material-rates')
 
 urlpatterns = router.urls + categories_router.urls + contents_router.urls
