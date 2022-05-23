@@ -5,3 +5,4 @@ from .Material import Material
 from .Provider import Provider
 from .Audience import Audience
 from .EnrolledToMaterial import EnrolledToMaterial
+from .Rate import AudienceRateMaterial

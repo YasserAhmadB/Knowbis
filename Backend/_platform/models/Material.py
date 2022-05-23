@@ -1,4 +1,5 @@
 from django.db import models
+from rest_framework import serializers
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
@@ -32,7 +33,7 @@ class Material(models.Model):  # Course
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=PRIVATE_CHOICE)
     requirements = models.CharField(max_length=1255, null=True)
     what_will_learn = models.CharField(max_length=1255)
-    duration = models.TimeField()
+    duration = models.CharField(max_length=10)
 
     permissions = [
         ('block_material', 'Can block a provider'),
@@ -73,6 +74,11 @@ class DeleteMaterialSerializer(ModelSerializer):
 class BriefMaterialSerializer(ModelSerializer):
     category = CategorySerializer()
     provider = ProviderSerializer()
+    enrolled_students = serializers.SerializerMethodField()
+
+    def get_enrolled_students(self, material: Material):
+        from _platform.models import EnrolledToMaterial
+        return EnrolledToMaterial.objects.filter(material=material).count()
 
     def validate_title(self, value: str):
         validate_field(value)
@@ -80,14 +86,20 @@ class BriefMaterialSerializer(ModelSerializer):
 
     class Meta:
         model = Material
-        fields = ['id', 'title', 'category', 'provider', 'brief_description', 'image', 'last_update', 'status', 'duration'
-                  # , 'rating', 'enrolled_students'
+        fields = ['id', 'title', 'category', 'provider', 'brief_description', 'image', 'last_update', 'status',
+                  'duration', 'enrolled_students'
+                  # , 'rating',
                   ]
 
 
 class MaterialSerializer(ModelSerializer):
     category = CategorySerializer()
     provider = ProviderSerializer()
+    enrolled_students = serializers.SerializerMethodField()
+
+    def get_enrolled_students(self, material: Material):
+        from _platform.models import EnrolledToMaterial
+        return EnrolledToMaterial.objects.filter(material=material).count()
 
     def validate_title(self, value: str):
         validate_field(value)
@@ -96,8 +108,8 @@ class MaterialSerializer(ModelSerializer):
     class Meta:
         model = Material
         fields = ['id', 'title', 'category', 'provider', 'description', 'image', 'last_update', 'status', 'requirements',
-                  'what_will_learn', 'duration'
-                  # , 'rating', 'enrolled_students'
+                  'what_will_learn', 'duration', 'enrolled_students'
+                  # , 'rating'
                   ]
 
 
@@ -140,6 +152,18 @@ class MaterialViewSet(ModelViewSet):
             enrolled_to_material.save()
         except:
             return Response('You are already enrolled in this course')
+
+        return Response('ok')
+
+    @action(detail=True, methods=['get', 'delete', 'put'])
+    def rate(self, request, pk):
+        from _platform.models.Rate import AudienceRateMaterial
+        from _platform.models import Audience
+
+        rating = AudienceRateMaterial()
+        rating.material_id = pk
+        rating.audience = Audience.objects.get(user_id=request.user.id)
+        rating.save()
 
         return Response('ok')
 

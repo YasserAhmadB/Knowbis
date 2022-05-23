@@ -1,3 +1,4 @@
+import datetime
 import json
 
 import requests
@@ -74,7 +75,9 @@ def create_course(name,
                   image=None,
                   requirements='requirements',
                   what_will_learn='what_will_learn',
-                  status='Pu'):
+                  status='Pu',
+                  duration=datetime.datetime.now()
+                  ):
     url = 'http://127.0.0.1:8000/platform/courses/'
     json_data = {'title': name,
                  'category': category,
@@ -84,7 +87,27 @@ def create_course(name,
                  'image': image,
                  'requirements': requirements,
                  'what_will_learn': what_will_learn,
-                 'status': status
+                 'status': status,
+                 'duration': str(duration)[:9],
+                 }
+
+    headers = {'Authorization': f'JWT {_token}'}
+    return post(url, json_data=json_data, headers=headers)
+
+
+def create_lecture(title,
+                   _token,
+                   course_id,
+                   brief_description='brief_description',
+                   text='text',
+                   video='https://www.youtube.com/watch?v=oRrCRTgg8eM&list=RD-8eEf05NykE&index=18',
+                   duration=datetime.datetime.now()):
+    url = f'http://127.0.0.1:8000/platform/courses/{course_id}/lectures/'
+    json_data = {'title': title,
+                 'brief_description': brief_description,
+                 'text': text,
+                 'video': video,
+                 'duration': str(duration)[:9],
                  }
 
     headers = {'Authorization': f'JWT {_token}'}
@@ -93,7 +116,7 @@ def create_course(name,
 
 admin = 'admin'
 token = login(admin, admin)['access']
-print(admin+':', token)
+print(admin + ':', token)
 create_category('Python', token)
 create_category('Java', token)
 
@@ -104,20 +127,24 @@ print(ins1 + ':', token)
 make_instructor(token)
 create_course('Python1', token, 1, 1)
 create_course('Python2', token, 1, 1)
+print(create_lecture('lecture1', token, 1))
+create_lecture('lecture2', token, 1)
+create_lecture('lecture3', token, 2)
 
 ins2 = 'ins2'
 create_user(ins2)
 token = login(ins2)['access']
-print(ins2+':', token)
+print(ins2 + ':', token)
 make_instructor(token)
 create_course('Java1', token, 1, 2)
 create_course('Java2', token, 1, 2)
+create_lecture('lecture4', token, 3)
 
 std1 = 'std1'
 create_user(std1)
 token = login(std1)['access']
 make_student(token, 4)
-print(std1+':', token)
+print(std1 + ':', token)
 enroll_in_a_course(1, token)
 enroll_in_a_course(2, token)
 
@@ -125,5 +152,5 @@ std2 = 'std2'
 create_user(std2)
 token = login(std2)['access']
 make_student(token, 5)
-print(std2+':', token)
+print(std2 + ':', token)
 enroll_in_a_course(4, token)

@@ -12,7 +12,7 @@ class Lecture(models.Model):  # Lecture
     brief_description = models.CharField(max_length=1255)
     text = models.CharField(max_length=2555)
     video = models.URLField()
-    duration = models.TimeField()
+    duration = models.CharField(max_length=10)
 
 
 class AddUpdateLectureSerializer(ModelSerializer):
@@ -24,6 +24,7 @@ class AddUpdateLectureSerializer(ModelSerializer):
 class AddLectureSerializer(AddUpdateLectureSerializer):
     def save(self, **kwargs):
         material_id = self.context['material_id']
+        print('material_id:', material_id)
         lecture = Lecture.objects.create(material_id=material_id, **self.validated_data)
         lecture.save()
         return lecture
