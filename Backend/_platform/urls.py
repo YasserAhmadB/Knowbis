@@ -1,11 +1,12 @@
-from .models.Audience import AudienceViewSet
-from .models.Category import CategoryViewSet
-from .models.Material import MaterialViewSet
-from .models.Provider import ProviderViewSet
-from .models.Lecture import LecturesViewSet
+from .models.Audience.view import AudienceViewSet
+from .models.Category.view import CategoryViewSet
+from .models.Material.view import MaterialViewSet
+from .models.Provider.view import ProviderViewSet
+from .models.Lecture.view import LecturesViewSet
+from .models.Rate.view import AudienceRateMaterialViewSet
+
 from rest_framework_nested import routers
 
-from .models.Rate import AudienceRateMaterialViewSet
 
 router = routers.DefaultRouter()
 router.register('categories', viewset=CategoryViewSet)

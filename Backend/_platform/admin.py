@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from .models.Category import Category
-from .models.Provider import Provider
-from .models.Material import Material
-from .models.Lecture import Lecture
-from .models.Document import Document
-from .models.Audience import Audience
-from .models.EnrolledToMaterial import EnrolledToMaterial
+from .models.Category.model import Category
+from .models.Provider.model import Provider
+from .models.Material.model import Material
+from .models.Lecture.model import Lecture
+from .models.Document.model import Document
+from .models.Audience.model import Audience
+from .models.EnrolledToMaterial.model import EnrolledToMaterial
 
 
 # Register your models here.

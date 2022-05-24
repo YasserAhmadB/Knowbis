@@ -1,6 +1,6 @@
 from django.db import models
 
-from _platform.models.Lecture import Lecture
+from _platform.models.Lecture.model import Lecture
 
 
 class Document(models.Model):
