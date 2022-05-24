@@ -7,9 +7,9 @@ from .models.Lecture.model import Lecture
 from .models.Document.model import Document
 from .models.Audience.model import Audience
 from .models.EnrolledToMaterial.model import EnrolledToMaterial
+from .models.Rate.model import AudienceRateMaterial
 
 
-# Register your models here.
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
@@ -35,12 +35,14 @@ class MaterialAdmin(admin.ModelAdmin):
         'status',
         'requirements',
         'what_will_learn',
+        'duration',
+        'is_blocked',
     )
-    list_filter = ('category', 'provider', 'last_update')
+    list_filter = ('category', 'provider', 'last_update', 'is_blocked')
 
 
 @admin.register(Lecture)
-class ContentAdmin(admin.ModelAdmin):
+class LectureAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'title',
@@ -48,6 +50,7 @@ class ContentAdmin(admin.ModelAdmin):
         'brief_description',
         'text',
         'video',
+        'duration',
     )
     list_filter = ('material',)
 
@@ -68,3 +71,9 @@ class AudienceAdmin(admin.ModelAdmin):
 class EnrolledToMaterialAdmin(admin.ModelAdmin):
     list_display = ('id', 'audience', 'material')
     list_filter = ('audience', 'material')
+
+
+@admin.register(AudienceRateMaterial)
+class AudienceRateMaterialAdmin(admin.ModelAdmin):
+    list_display = ('id', 'audience', 'material', 'rating')
+    list_filter = ('audience', 'material', 'rating')

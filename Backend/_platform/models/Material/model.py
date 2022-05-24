@@ -27,6 +27,8 @@ class Material(models.Model):  # Course
     what_will_learn = models.CharField(max_length=1255)
     duration = models.CharField(max_length=10)
 
+    is_blocked = models.BooleanField(default=False)
+
     permissions = [
         ('block_material', 'Can block a provider'),
         ('unblock_material', 'Can unblock a provider'),

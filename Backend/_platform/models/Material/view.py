@@ -15,7 +15,8 @@ class MaterialViewSet(ModelViewSet):
     queryset = Material.objects\
         .select_related('category')\
         .select_related('provider')\
-        .all()
+        .filter(is_blocked=False)
+
     http_method_names = ['get', 'post', 'patch', 'delete']
     permission_classes = [IsMaterialProviderOrReadOnly]
     filter_backends = [SearchFilter]
@@ -37,8 +38,8 @@ class MaterialViewSet(ModelViewSet):
 
     @action(detail=True)
     def enroll(self, request, pk):
-        from _platform.models import EnrolledToMaterial
-        from _platform.models import Audience
+        from _platform.models.EnrolledToMaterial.model import EnrolledToMaterial
+        from _platform.models.Audience.model import Audience
 
         enrolled_to_material = EnrolledToMaterial()
         enrolled_to_material.material_id = pk
