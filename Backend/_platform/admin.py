@@ -4,10 +4,10 @@ from .models.Category.model import Category
 from .models.Provider.model import Provider
 from .models.Material.model import Material
 from .models.Lecture.model import Lecture
-from .models.Document.model import Document
 from .models.Audience.model import Audience
-from .models.EnrolledToMaterial.model import EnrolledToMaterial
-from .models.Rate.model import AudienceRateMaterial
+from .models.Document.model import Document
+# from .models.EnrolledToMaterial.model import EnrolledToMaterial
+# from .models.Rate.model import AudienceRateMaterial
 
 
 @admin.register(Category)
@@ -67,13 +67,13 @@ class AudienceAdmin(admin.ModelAdmin):
     list_filter = ('user',)
 
 
-@admin.register(EnrolledToMaterial)
-class EnrolledToMaterialAdmin(admin.ModelAdmin):
-    list_display = ('id', 'audience', 'material')
-    list_filter = ('audience', 'material')
+# @admin.register(EnrolledToMaterial)
+# class EnrolledToMaterialAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'audience', 'material')
+#     list_filter = ('audience', 'material')
 
 
-@admin.register(AudienceRateMaterial)
-class AudienceRateMaterialAdmin(admin.ModelAdmin):
-    list_display = ('id', 'audience', 'material', 'rating')
-    list_filter = ('audience', 'material', 'rating')
+# @admin.register(AudienceRateMaterial)
+# class AudienceRateMaterialAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'audience', 'material', 'rating')
+#     list_filter = ('audience', 'material', 'rating')
