@@ -9,6 +9,15 @@ class LectureSerializer(ModelSerializer):
         fields = ['id', 'title', 'brief_description', 'text', 'video', 'duration']
 
 
+class RetrieveLectureSerializer(LectureSerializer):
+    pass
+
+
+class BriefRetrieveLectureSerializer(LectureSerializer):
+    class Meta(LectureSerializer.Meta):
+        fields = LectureSerializer.Meta.fields.copy().remove('text')
+
+
 class AddLectureSerializer(LectureSerializer):
     def save(self, **kwargs):
         material_id = self.context['material_id']
@@ -20,8 +29,3 @@ class AddLectureSerializer(LectureSerializer):
 
 class UpdateLectureSerializer(LectureSerializer):
     pass
-
-
-class BriefRetrieveLectureSerializer(LectureSerializer):
-    class Meta(LectureSerializer.Meta):
-        fields = ['id', 'title', 'brief_description', 'duration']

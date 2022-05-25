@@ -10,7 +10,7 @@ from _platform.models.EnrolledToMaterial.model import EnrolledToMaterial
 from _platform.models.EnrolledToMaterial.serializer import EnrolledToMaterialSerializer
 
 from _platform.models import Material
-from _platform.models.Material.serializer import AddUpdateMaterialSerializer, BriefMaterialSerializer,\
+from _platform.models.Material.serializer import AddUpdateMaterialSerializer, BriefRetrieveMaterialSerializer,\
     RetrieveMaterialSerializer
 
 
@@ -69,8 +69,8 @@ class MaterialViewSet(ModelViewSet):
         if self.request.method in ['POST', 'PATCH']:
             return AddUpdateMaterialSerializer
         elif self.request.method == 'GET':
-            if self.action == 'list':  # if the endpoint is /materials it will return a brief material
-                return BriefMaterialSerializer
+            if self.action == 'list':  # if the endpoint is /materials it will return a brief materialssss
+                return BriefRetrieveMaterialSerializer
             else:
                 return RetrieveMaterialSerializer
         return MaterialViewSet

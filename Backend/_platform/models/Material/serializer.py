@@ -12,7 +12,7 @@ class MaterialSerializer(ModelSerializer):
     class Meta:
         model = Material
         fields = ['id', 'title', 'category', 'provider', 'description', 'brief_description', 'image', 'status',
-                  'requirements', 'what_will_learn']
+                  'requirements', 'what_will_learn', 'duration']
 
 
 class RetrieveMaterialSerializer(MaterialSerializer):
@@ -23,15 +23,10 @@ class RetrieveMaterialSerializer(MaterialSerializer):
     rating = serializers.SerializerMethodField()
 
     def get_rating(self, material):
-        print(1)
         ratings = AudienceRateMaterial.objects.filter(material_id=material.id)
-        print(2)
         like = ratings.filter(rating=True).count()
-        print(3)
         dislike = ratings.filter(rating=False).count()
-        print(4)
         total_ratings = like + dislike
-        print(5)
         if total_ratings:
             return like / (like + dislike) * 100
         return 0.0
@@ -41,16 +36,18 @@ class RetrieveMaterialSerializer(MaterialSerializer):
         return EnrolledToMaterial.objects.filter(material=material).count()
 
     class Meta(MaterialSerializer.Meta):
-        MaterialSerializer.Meta.fields.extend(['duration', 'enrolled_students', 'rating', 'last_update'])
+        fields = MaterialSerializer.Meta.fields.copy()
+        fields.extend(['enrolled_students', 'rating', 'last_update'])
 
 
-class BriefMaterialSerializer(RetrieveMaterialSerializer):
+class BriefRetrieveMaterialSerializer(RetrieveMaterialSerializer):
     class Meta(RetrieveMaterialSerializer.Meta):
-        fields = ['id', 'title', 'category', 'provider', 'brief_description', 'image', 'last_update', 'status',
-                  'duration', 'enrolled_students', 'rating']
+        fields = RetrieveMaterialSerializer.Meta.fields.copy()
+        for i in ['requirements', 'what_will_learn', 'description']:
+            fields.remove(i)
 
 
-class AddUpdateMaterialSerializer(RetrieveMaterialSerializer):
+class AddUpdateMaterialSerializer(MaterialSerializer):
     """
     Special serializer, it differs from MaterialSerializer that it does not overwrite the id, and category fields.
     Used for creating and updating material.

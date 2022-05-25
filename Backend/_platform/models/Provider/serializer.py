@@ -12,9 +12,10 @@ class ProviderSerializer(serializers.ModelSerializer):  # Logged in user
 
 class RetrieveProviderSerializer(ProviderSerializer):  # Logged in user
     user = settings.DJOSER['SERIALIZERS']['user']
-    # pass
+
     class Meta(ProviderSerializer.Meta):
-        ProviderSerializer.Meta.fields.extend(['user'])
+        fields = ProviderSerializer.Meta.fields.copy()
+        fields.extend(['user'])
 
 
 class UpdateProviderSerializer(ProviderSerializer):

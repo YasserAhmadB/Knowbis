@@ -1,7 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
 
 from _platform.models import Lecture
-from _platform.models.Lecture.serializer import AddLectureSerializer, UpdateLectureSerializer, LectureSerializer
+from _platform.models.Lecture.serializer import AddLectureSerializer, UpdateLectureSerializer, LectureSerializer, \
+    BriefRetrieveLectureSerializer
 from authorizer.permissions import IsLectureProviderOrReadOnly
 
 
@@ -14,8 +15,9 @@ class LecturesViewSet(ModelViewSet):  # Lectures
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return AddLectureSerializer
-        elif self.request.method == 'PATCH':
-            return UpdateLectureSerializer
+        elif self.request.method == 'GET':
+            if self.action == 'list':
+                return BriefRetrieveLectureSerializer
         return LectureSerializer
 
     def get_queryset(self):
