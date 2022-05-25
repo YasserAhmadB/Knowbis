@@ -57,8 +57,8 @@ class LectureAdmin(admin.ModelAdmin):
 
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'file', 'content')
-    list_filter = ('content',)
+    list_display = ('id', 'file', 'lecture')
+    list_filter = ('lecture',)
 
 
 @admin.register(Audience)
