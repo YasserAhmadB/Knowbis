@@ -1,12 +1,12 @@
 from rest_framework.viewsets import ModelViewSet
 
 from _platform.models import Provider
-from _platform.models.Provider.serializer import CreateProviderSerializer, UpdateProviderSerializer, ProviderSerializer
+from _platform.models.Provider.serializer import CreateProviderSerializer, UpdateProviderSerializer, \
+    RetrieveProviderSerializer, ProviderSerializer
 
 
 class ProviderViewSet(ModelViewSet):
     # permission_classes = [IsAuthenticated]
-    # serializer_class = ProviderSerializer
     queryset = Provider.objects.all()
     http_method_names = ['get', 'post', 'patch', 'delete']
 
@@ -15,6 +15,8 @@ class ProviderViewSet(ModelViewSet):
             return CreateProviderSerializer
         elif self.request.method == 'PATCH':
             return UpdateProviderSerializer
+        elif self.request.method == 'GET':
+            return RetrieveProviderSerializer
         return ProviderSerializer
 
     def get_serializer_context(self):

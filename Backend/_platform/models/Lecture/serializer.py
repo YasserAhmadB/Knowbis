@@ -3,13 +3,13 @@ from rest_framework.serializers import ModelSerializer
 from _platform.models import Lecture
 
 
-class AddUpdateLectureSerializer(ModelSerializer):
+class LectureSerializer(ModelSerializer):
     class Meta:
         model = Lecture
-        fields = ['title', 'brief_description', 'text', 'video', 'duration']
+        fields = ['id', 'title', 'brief_description', 'text', 'video', 'duration']
 
 
-class AddLectureSerializer(AddUpdateLectureSerializer):
+class AddLectureSerializer(LectureSerializer):
     def save(self, **kwargs):
         material_id = self.context['material_id']
         print('material_id:', material_id)
@@ -18,17 +18,10 @@ class AddLectureSerializer(AddUpdateLectureSerializer):
         return lecture
 
 
-class UpdateLectureSerializer(AddUpdateLectureSerializer):
+class UpdateLectureSerializer(LectureSerializer):
     pass
 
 
-class LectureSerializer(ModelSerializer):
-    class Meta:
-        model = Lecture
-        fields = ['id', 'title', 'brief_description', 'text', 'video', 'duration']
-
-
-class BriefRetrieveLectureSerializer(ModelSerializer):
-    class Meta:
-        model = Lecture
-        fields = ['id', 'title', 'duration', 'brief_description']
+class BriefRetrieveLectureSerializer(LectureSerializer):
+    class Meta(LectureSerializer.Meta):
+        fields = ['id', 'title', 'brief_description', 'duration']

@@ -9,11 +9,7 @@ class AudienceSerializer(serializers.ModelSerializer):
         fields = ['id', 'user']
 
 
-class CreateAudienceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Audience
-        fields = ['id', 'user']
-
+class CreateAudienceSerializer(AudienceSerializer):
     def save(self, **kwargs):
         user_id = self.context['user_id']
         provider = Audience.objects.create(user_id=user_id, **self.validated_data)
