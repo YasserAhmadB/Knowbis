@@ -7,7 +7,7 @@ from _platform.models import Provider
 class ProviderSerializer(serializers.ModelSerializer):  # Logged in user
     class Meta:
         model = Provider
-        fields = ['id', 'pic', 'description']
+        fields = ['id', 'pic', 'description', 'major']
 
 
 class RetrieveProviderSerializer(ProviderSerializer):  # Logged in user

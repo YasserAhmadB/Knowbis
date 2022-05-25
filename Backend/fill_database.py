@@ -40,10 +40,11 @@ def login(username, password='123'):
     return post(url, json_data)
 
 
-def make_instructor(_token):
+def make_instructor(_token, major='major'):
     url = 'http://127.0.0.1:8000/platform/instructors/'
+    json_data = {'major': major}
     headers = {'Authorization': f'JWT {_token}'}
-    return post(url, headers=headers)
+    return post(url, headers=headers, json_data=json_data)
 
 
 def make_student(_token, user_id):
@@ -124,10 +125,10 @@ ins1 = 'ins1'
 create_user(ins1)
 token = login(ins1)['access']
 print(ins1 + ':', token)
-make_instructor(token)
-(create_course('Python1', token, 1, 1))
+make_instructor(token, 'Software Engineer')
+create_course('Python1', token, 1, 1)
 create_course('Python2', token, 1, 1)
-(create_lecture('lecture1', token, 1))
+create_lecture('lecture1', token, 1)
 create_lecture('lecture2', token, 1)
 create_lecture('lecture3', token, 2)
 
@@ -135,7 +136,7 @@ ins2 = 'ins2'
 create_user(ins2)
 token = login(ins2)['access']
 print(ins2 + ':', token)
-make_instructor(token)
+make_instructor(token, major='CS')
 create_course('Java1', token, 1, 2)
 create_course('Java2', token, 1, 2)
 create_lecture('lecture4', token, 3)

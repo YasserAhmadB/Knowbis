@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from _platform.models import Lecture
+from _platform.models import Lecture, Material
 from _platform.models.Lecture.serializer import AddLectureSerializer, UpdateLectureSerializer, LectureSerializer, \
     BriefRetrieveLectureSerializer
 from authorizer.permissions import IsLectureProviderOrReadOnly
@@ -10,7 +10,6 @@ class LecturesViewSet(ModelViewSet):  # Lectures
     http_method_names = ['get', 'post', 'patch', 'delete']
 
     # Does not work (https://www.django-rest-framework.org/api-guide/permissions/)
-    permission_classes = [IsLectureProviderOrReadOnly]
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -26,3 +25,7 @@ class LecturesViewSet(ModelViewSet):  # Lectures
 
     def get_serializer_context(self):
         return {'material_id': self.kwargs['material_pk']}
+
+    def get_permissions(self):
+        material = Material.objects.get(id=self.kwargs['material_pk'])
+        return [IsLectureProviderOrReadOnly(material.provider.user.id)]

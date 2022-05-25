@@ -15,7 +15,9 @@ class RetrieveLectureSerializer(LectureSerializer):
 
 class BriefRetrieveLectureSerializer(LectureSerializer):
     class Meta(LectureSerializer.Meta):
-        fields = LectureSerializer.Meta.fields.copy().remove('text')
+        fields = LectureSerializer.Meta.fields.copy()
+        for i in ['text', 'video']:
+            fields.remove(i)
 
 
 class AddLectureSerializer(LectureSerializer):
