@@ -9,9 +9,9 @@ REST_FRAMEWORK = {  # For authenticator
     #     'rest_framework.authentication.SessionAuthentication',
     #     'rest_framework_simplejwt.authentication.JWTAuthentication',  # OAuth2, JWT
     # ),
-    #  'DEFAULT_PERMISSION_CLASSES': (
-    #      'rest_framework.permissions.AllowAny', # Up to you to decide, depends on your project
-    #  )
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',  # Up to you to decide, depends on your project
+    )
 }
 
 SIMPLE_JWT = {

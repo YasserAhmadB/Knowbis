@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator
 from django.db import models
 
 from _platform.models.Category.model import Category
@@ -25,14 +26,10 @@ class Material(models.Model):  # Course
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=PRIVATE_CHOICE)
     requirements = models.CharField(max_length=1255, null=True)
     what_will_learn = models.CharField(max_length=1255)
-    duration = models.CharField(max_length=10)
+    duration = models.PositiveIntegerField(validators=[MaxValueValidator(12000)])
 
     is_blocked = models.BooleanField(default=False)
 
-    permissions = [
-        ('block_material', 'Can block a provider'),
-        ('unblock_material', 'Can unblock a provider'),
-    ]
 
     # rating will be in the serializer
     # the count of enrolled students will be in the serializer

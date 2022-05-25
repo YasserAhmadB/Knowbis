@@ -76,7 +76,7 @@ def create_course(name,
                   requirements='requirements',
                   what_will_learn='what_will_learn',
                   status='Pu',
-                  duration=datetime.datetime.now()
+                  duration=500
                   ):
     url = 'http://127.0.0.1:8000/platform/courses/'
     json_data = {'title': name,
@@ -88,7 +88,7 @@ def create_course(name,
                  'requirements': requirements,
                  'what_will_learn': what_will_learn,
                  'status': status,
-                 'duration': str(duration)[:9],
+                 'duration': duration,
                  }
 
     headers = {'Authorization': f'JWT {_token}'}
@@ -101,13 +101,13 @@ def create_lecture(title,
                    brief_description='brief_description',
                    text='text',
                    video='https://www.youtube.com/watch?v=oRrCRTgg8eM&list=RD-8eEf05NykE&index=18',
-                   duration=datetime.datetime.now()):
+                   duration=500):
     url = f'http://127.0.0.1:8000/platform/courses/{course_id}/lectures/'
     json_data = {'title': title,
                  'brief_description': brief_description,
                  'text': text,
                  'video': video,
-                 'duration': str(duration)[:9],
+                 'duration': duration,
                  }
 
     headers = {'Authorization': f'JWT {_token}'}
@@ -125,9 +125,9 @@ create_user(ins1)
 token = login(ins1)['access']
 print(ins1 + ':', token)
 make_instructor(token)
-create_course('Python1', token, 1, 1)
+(create_course('Python1', token, 1, 1))
 create_course('Python2', token, 1, 1)
-print(create_lecture('lecture1', token, 1))
+(create_lecture('lecture1', token, 1))
 create_lecture('lecture2', token, 1)
 create_lecture('lecture3', token, 2)
 

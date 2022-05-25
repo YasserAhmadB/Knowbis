@@ -2,13 +2,16 @@ from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import permissions
+
+from authorizer.permissions import IsMaterialProviderOrReadOnly, IsProviderOrReadOnly
+
 from _platform.models.EnrolledToMaterial.model import EnrolledToMaterial
 from _platform.models.EnrolledToMaterial.serializer import EnrolledToMaterialSerializer
 
 from _platform.models import Material
 from _platform.models.Material.serializer import AddUpdateMaterialSerializer, DeleteMaterialSerializer, \
     BriefMaterialSerializer, RetrieveMaterialSerializer
-from authorizer.permissions import IsMaterialProviderOrReadOnly
 
 
 class MaterialViewSet(ModelViewSet):
@@ -18,7 +21,7 @@ class MaterialViewSet(ModelViewSet):
         .filter(is_blocked=False)
 
     http_method_names = ['get', 'post', 'patch', 'delete']
-    permission_classes = [IsMaterialProviderOrReadOnly]
+    permission_classes = [IsMaterialProviderOrReadOnly, IsProviderOrReadOnly]
     filter_backends = [SearchFilter]
     search_fields = ['title']
 
