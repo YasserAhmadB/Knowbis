@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from _platform.models import Provider
+from _platform.models.Provider.model import Provider
 from _platform.models.Provider.serializer import CreateProviderSerializer, UpdateProviderSerializer, \
     RetrieveProviderSerializer, ProviderSerializer
 from authorizer.permissions import IsAdminOrReadOnly, IsMe

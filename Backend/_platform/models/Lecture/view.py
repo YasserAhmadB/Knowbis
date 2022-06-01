@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
-from _platform.models import Lecture, Material
+from _platform.models.Lecture.model import Lecture
+from _platform.models.Material.model import Material
 from _platform.models.Lecture.serializer import AddLectureSerializer, UpdateLectureSerializer, LectureSerializer, \
     BriefRetrieveLectureSerializer
 from authorizer.permissions import IsLectureProviderOrReadOnly

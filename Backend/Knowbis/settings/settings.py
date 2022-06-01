@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'authenticator',
     # 'rest_framework_simplejwt',
     # 'rest_framework_simplejwt.token_blacklist',
-    '_platform',
+    '_platform.apps.PlatformConfig',
 ]
 
 MIDDLEWARE = [

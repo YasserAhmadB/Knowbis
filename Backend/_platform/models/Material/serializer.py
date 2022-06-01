@@ -2,10 +2,12 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from Knowbis.serializers_methods import validate_field
+from _platform.models.Provider.model import Provider
 from _platform.models.Rate.model import AudienceRateMaterial
 from _platform.models.Material.model import Material
 from _platform.models.Category.serializer import CategorySerializer
 from _platform.models.Provider.serializer import RetrieveProviderSerializer
+from _platform.models.EnrolledToMaterial.model import EnrolledToMaterial
 
 
 class MaterialSerializer(ModelSerializer):
@@ -32,7 +34,6 @@ class RetrieveMaterialSerializer(MaterialSerializer):
         return 0.0
 
     def get_enrolled_students(self, material: Material):
-        from _platform.models import EnrolledToMaterial
         return EnrolledToMaterial.objects.filter(material=material).count()
 
     class Meta(MaterialSerializer.Meta):
@@ -57,3 +58,17 @@ class AddUpdateMaterialSerializer(MaterialSerializer):
     def validate_title(self, value: str):
         validate_field(value)
         return value
+
+
+class AddMaterialSerializer(AddUpdateMaterialSerializer):
+    def save(self, **kwargs):
+        user_id = self.context['user_id']
+        provider = Provider.objects.get(user_id=user_id)
+        material = Material.objects.create(provider=provider, **self.validated_data)
+        return provider
+
+    def validate_title(self, value: str):
+        validate_field(value)
+        return value
+
+

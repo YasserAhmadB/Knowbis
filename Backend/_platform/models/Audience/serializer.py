@@ -12,6 +12,6 @@ class AudienceSerializer(serializers.ModelSerializer):
 class CreateAudienceSerializer(AudienceSerializer):
     def save(self, **kwargs):
         user_id = self.context['user_id']
-        provider = Audience.objects.create(user_id=user_id, **self.validated_data)
-        provider.save()
-        return provider
+        audience = Audience.objects.create(user_id=user_id, **self.validated_data)
+        audience.save()
+        return audience

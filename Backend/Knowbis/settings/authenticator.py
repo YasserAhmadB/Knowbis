@@ -26,3 +26,5 @@ DJOSER = {
         'current_user': 'authenticator.serializers.UserRetrieveSerializer',
     }
 }
+
+PASSWORD_RESET_CONFIRM_URL = 'http://127.0.0.1:8000/auth/users/reset_password_confirm/'

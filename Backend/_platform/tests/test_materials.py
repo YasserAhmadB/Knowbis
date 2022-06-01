@@ -2,7 +2,7 @@ import pytest
 from rest_framework import status
 from model_bakery import baker
 
-from _platform.models import Material, Provider
+from _platform.models import Material, Provider, Category
 
 
 @pytest.mark.django_db
@@ -22,7 +22,7 @@ class TestGetMaterials:
         assert data['title'] == material.title
         assert data['category']['id'] == material.category.id
         assert data['provider']['id'] == material.provider.id
-        assert data['duration'] == str(material.duration)
+        assert data['duration'] == material.duration
         assert data['description'] == material.description
         assert data['image'] == material.image
         assert data['last_update'] == str(material.last_update)
@@ -91,6 +91,7 @@ class TestGetMaterials:
 def get_material(api_client):
     def do_get_material(material):
         return api_client.get(f'/platform/courses/{material.id}/')
+
     return do_get_material
 
 
@@ -98,17 +99,27 @@ def get_material(api_client):
 def get_uploaded_material(api_client):
     def do_get_material():
         return api_client.get(f'/platform/courses/uploaded/')
+
     return do_get_material
 
 
 @pytest.mark.django_db
-@pytest.mark.skip
 class TestCreateMaterials:
-    def test_create(self, create_material):
+    def test_if_anonymous_returns_401(self, create_material):
         # Arrange
 
         # Act
-        response = create_material({'title': 'a'})
+        response = create_material()
+        print('response:', response)
+        # Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_provider_returns_201(self, create_material, authenticate_provider):
+        # Arrange
+        authenticate_provider()
+
+        # Act
+        response = create_material()
 
         # Assert
         assert response.status_code == status.HTTP_201_CREATED
@@ -116,8 +127,24 @@ class TestCreateMaterials:
 
 @pytest.fixture
 def create_material(api_client):
-    def do_create_material(material):
-        return api_client.post('/platform/material/', material)
+    def do_create_material(material=None):
+        if not material:  # Creates any random material
+            material_object = baker.make(Material)
+            material = {
+                'title': 'material_object.title',
+                'category': material_object.category.id,
+                'description': 'material_object.description',
+                'brief_description': 'material_object.brief_description',
+                'image': 'material_object.image',
+                'last_update': 'material_object.last_update',
+                'status': 'material_object.status',
+                'requirements': 'material_object.requirements',
+                'what_will_learn': 'material_object.what_will_learn',
+                'duration': 'material_object.duration',
+            }
+            print('material:')
+            print(material.values())
+        return api_client.post('/platform/courses/', material)
 
     return do_create_material
 

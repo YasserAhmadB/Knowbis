@@ -29,7 +29,3 @@ class Material(models.Model):  # Course
     duration = models.PositiveIntegerField(validators=[MaxValueValidator(12000)])
 
     is_blocked = models.BooleanField(default=False)
-
-
-    # rating will be in the serializer
-    # the count of enrolled students will be in the serializer

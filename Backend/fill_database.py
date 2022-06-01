@@ -1,6 +1,3 @@
-import datetime
-import json
-
 import requests
 
 
@@ -126,20 +123,21 @@ create_user(ins1)
 token = login(ins1)['access']
 print(ins1 + ':', token)
 make_instructor(token, 'Software Engineer')
-create_course('Python1', token, 1, 1)
-create_course('Python2', token, 1, 1)
-create_lecture('lecture1', token, 1)
-create_lecture('lecture2', token, 1)
-create_lecture('lecture3', token, 2)
+create_course('Python1 for ins1', token, 1, 1)
+create_course('Python2 for ins1', token, 1, 1)
+create_course('Java1 for ins1', token, 2, 1)
+create_lecture('lecture1 for ins1', token, 1)
+create_lecture('lecture2 for ins1', token, 1)
+create_lecture('lecture3 for ins1', token, 2)
 
 ins2 = 'ins2'
 create_user(ins2)
 token = login(ins2)['access']
 print(ins2 + ':', token)
 make_instructor(token, major='CS')
-create_course('Java1', token, 1, 2)
-create_course('Java2', token, 1, 2)
-create_lecture('lecture4', token, 3)
+create_course('Java1 for ins2', token, 1, 2)
+create_course('Java2 for ins2', token, 1, 2)
+create_lecture('lecture4 for ins2', token, 3)
 
 std1 = 'std1'
 create_user(std1)

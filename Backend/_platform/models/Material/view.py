@@ -2,14 +2,13 @@ from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import permissions
 
 from authorizer.permissions import IsMaterialProviderOrReadOnly, IsProviderOrReadOnly
 
 from _platform.models.EnrolledToMaterial.model import EnrolledToMaterial
 from _platform.models.EnrolledToMaterial.serializer import EnrolledToMaterialSerializer
 
-from _platform.models import Material
+from _platform.models.Material.model import Material
 from _platform.models.Material.serializer import AddUpdateMaterialSerializer, BriefRetrieveMaterialSerializer,\
     RetrieveMaterialSerializer
 
@@ -79,4 +78,8 @@ class MaterialViewSet(ModelViewSet):
         if self.action == 'retrieve':
             return {
                 'material_id': self.kwargs['pk'],
+            }
+        if self.request.method == 'POST':
+            return {
+                'provider_id': self.queryset.filter()
             }
