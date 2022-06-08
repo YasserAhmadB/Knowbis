@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ['192.168.1.2', '192.168.1.6', '192.168.1.6:3000', '192.168.56.1
 # Application definition
 
 INSTALLED_APPS = [
-    # 'corsheaders',  # added
     # 'django.contrib.sites',  # added
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,12 +41,12 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'rest_framework',
     'corsheaders',
-    # 'social_django',
-    # Not needed to add but pip install required. Adding it here will create additional acces to social user via admin
-    'authenticator',
     # 'rest_framework_simplejwt',
     # 'rest_framework_simplejwt.token_blacklist',
-    '_platform.apps.PlatformConfig',
+    # '_platform.apps.PlatformConfig',
+    'users_manager',
+    'category_manager',
+    'material_manager',
 ]
 
 MIDDLEWARE = [
@@ -59,9 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'social_django.middleware.SocialAuthExceptionMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',  # For debug toolbar
-
 ]
 
 ROOT_URLCONF = 'Knowbis.urls'

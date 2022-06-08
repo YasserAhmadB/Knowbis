@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-AUTH_USER_MODEL = 'authenticator.User'  # For authenticator
+AUTH_USER_MODEL = 'users_manager.User'  # For authenticator
 REST_FRAMEWORK = {  # For authenticator
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -21,9 +21,9 @@ SIMPLE_JWT = {
 
 DJOSER = {
     'SERIALIZERS': {
-        'user_create': 'authenticator.serializers.UserCreateSerializer',
-        'user': 'authenticator.serializers.UserRetrieveSerializer',
-        'current_user': 'authenticator.serializers.UserRetrieveSerializer',
+        'user_create': 'users_manager.User.serializer.UserCreateSerializer',
+        'user': 'users_manager.User.serializer.UserRetrieveSerializer',
+        'current_user': 'users_manager.User.serializer.UserRetrieveSerializer',
     }
 }
 

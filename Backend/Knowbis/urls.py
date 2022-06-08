@@ -23,6 +23,8 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('__debug__/', include('debug_toolbar.urls')),
-    path('platform/', include('_platform.urls')),
+    path('platform/', include('users_manager.urls')),
+    path('platform/', include('category_manager.urls')),
+    path('platform/', include('material_manager.urls')),
 ] +\
               static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # For retrieving static files

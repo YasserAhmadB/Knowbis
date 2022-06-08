@@ -144,7 +144,7 @@ create_user(std1)
 token = login(std1)['access']
 make_student(token, 4)
 print(std1 + ':', token)
-enroll_in_a_course(1, token)
+print(enroll_in_a_course(1, token))
 enroll_in_a_course(2, token)
 
 std2 = 'std2'

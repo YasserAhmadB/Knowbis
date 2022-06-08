@@ -1,5 +1,7 @@
 from rest_framework import permissions
 
+from users_manager.Provider.model import Provider
+
 
 class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -23,13 +25,11 @@ class IsMaterialProviderOrReadOnly(permissions.BasePermission):
 
 
 class IsProviderOrReadOnly(permissions.BasePermission):
-    from _platform.models.Provider.model import Provider
-
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True
         try:
-            self.Provider.objects.get(user_id=request.user.id)
+            Provider.objects.get(user_id=request.user.id)
             return True
         except:
             return False
