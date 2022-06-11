@@ -2,8 +2,10 @@ import pytest
 from rest_framework import status
 from model_bakery import baker
 
+from category_manager.Category.model import Category
 from material_manager.Material.model import Material
 from users_manager.Provider.model import Provider
+from rest_framework.response import Response
 
 
 @pytest.mark.django_db
@@ -111,9 +113,17 @@ class TestCreateMaterials:
 
         # Act
         response = create_material()
-        print('response:', response)
         # Assert
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_no_access_returns_403(self, create_material, authenticate):
+        # Arrange
+        authenticate()
+
+        # Act
+        response = create_material()
+        # Assert
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_if_provider_returns_201(self, create_material, authenticate_provider):
         # Arrange
@@ -130,63 +140,141 @@ class TestCreateMaterials:
 def create_material(api_client):
     def do_create_material(material=None):
         if not material:  # Creates any random material
+            # provider = baker.make(Provider)
+            # category = baker.make(Category)
             material_object = baker.make(Material)
             material = {
-                'title': 'material_object.title',
+                'title': 'material_object.titl1e',
                 'category': material_object.category.id,
-                'description': 'material_object.description',
-                'brief_description': 'material_object.brief_description',
-                'image': 'material_object.image',
-                'last_update': 'material_object.last_update',
-                'status': 'material_object.status',
-                'requirements': 'material_object.requirements',
-                'what_will_learn': 'material_object.what_will_learn',
-                'duration': 'material_object.duration',
+                'provider': material_object.provider.id,
+                'description': str(material_object.description),
+                'brief_description': str(material_object.brief_description),
+                # 'image': material_object.image,
+                'status': material_object.status[:2],
+                'requirements': str(material_object.requirements),
+                'what_will_learn': str(material_object.what_will_learn),
+                'duration': 1,
             }
-            print('material:')
-            print(material.values())
+        # print('material:', material)
         return api_client.post('/platform/courses/', material)
 
     return do_create_material
 
 
 @pytest.mark.django_db
-@pytest.mark.skip
+# @pytest.mark.skip
 class TestUpdateMaterials:
-    def test_update(self, update_material):
+    def test_if_anonymous_returns_401(self, update_material):
         # Arrange
-        material = baker.make(Material)
+        material_object = baker.make(Material)
+
         # Act
-        response = update_material(material, {'title': 'New title'})
+        response = update_material(material_object.id)
+
+        # Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_no_access_returns_401(self, update_material, authenticate):
+        # Arrange
+        material_object = baker.make(Material)
+
+        # Act
+        response = update_material(material_object.id)
+        # Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_provider_returns_201(self, update_material, authenticate_provider):
+        # Arrange
+        provider = authenticate_provider()
+        material_object = baker.make(Material, provider=provider)
+
+        # Act
+        response = update_material(material_object.id)
 
         # Assert
         assert response.status_code == status.HTTP_200_OK
 
+    def test_if_provider_but_not_authorized_returns_403(self, update_material, authenticate_provider):
+        # Arrange
+        provider1 = authenticate_provider()  # This is the creator of the course
+        provider2 = authenticate_provider()  # This is the authenticated user
+        material_object = baker.make(Material, provider=provider1)
+
+        # Act
+        response = update_material(material_object.id)
+
+        # Assert
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
 
 @pytest.fixture
 def update_material(api_client):
-    def do_update_material(material, data):
-        return api_client.patch(f'/platform/materials/{material.id}/', data)
+    def do_update_material(material_id):
+        new_material_object = baker.make(Material)
+        new_material = {
+            'title': 'material_object.titl1e',
+            'category': new_material_object.category.id,
+            'description': 'str(material_object.description)',
+            'brief_description': 'str(material_object.brief_description)',
+            'status': new_material_object.status[:2],
+            'requirements': 'material_object.requirements',
+            'what_will_learn': 'material_object.what_will_learn',
+            'duration': 2,
+        }
+
+        return api_client.patch(f'/platform/courses/{material_id}/', new_material)
 
     return do_update_material
 
 
 @pytest.mark.django_db
-@pytest.mark.skip
 class TestDeleteMaterials:
-    def test_delete(self, delete_material):
+    def test_if_anonymous_returns_401(self, delete_material):
         # Arrange
-        material = baker.make(Material)
+        material_object = baker.make(Material)
+
         # Act
-        response = delete_material(material, {})
+        response = delete_material(material_object.id)
+
+        # Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_no_access_returns_401(self, delete_material, authenticate):
+        # Arrange
+        material_object = baker.make(Material)
+
+        # Act
+        response = delete_material(material_object.id)
+        # Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_provider_returns_201(self, delete_material, authenticate_provider):
+        # Arrange
+        provider = authenticate_provider()
+        material_object = baker.make(Material, provider=provider)
+
+        # Act
+        response = delete_material(material_object.id)
 
         # Assert
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
+    def test_if_provider_but_not_authorized_returns_403(self, delete_material, authenticate_provider):
+        # Arrange
+        provider1 = authenticate_provider()  # This is the creator of the course
+        provider2 = authenticate_provider()  # This is the authenticated user
+        material_object = baker.make(Material, provider=provider1)
+
+        # Act
+        response = delete_material(material_object.id)
+
+        # Assert
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
 
 @pytest.fixture
 def delete_material(api_client):
-    def do_delete_material(material, data):
-        return api_client.delete(f'/platform/Materials/{material.id}/', data)
+    def do_delete_material(material_id):
+        return api_client.delete(f'/platform/courses/{material_id}/')
 
     return do_delete_material
