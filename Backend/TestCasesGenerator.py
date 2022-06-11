@@ -40,7 +40,6 @@ attributes = ""
 jsonObject = [f"{row.split(' ')[0]}: {theWord}.{{row.split(' ')[0]}}," for row in attributeRows]
 for i in jsonObject:
     attributes+=i
-print("theWord:", theWord)
 theWordTitle = theWord.title()
 theWordWithS = get_plural(theWord)
 theWordWithSTitle = theWordWithS.title()

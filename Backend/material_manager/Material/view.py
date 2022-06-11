@@ -33,41 +33,25 @@ class MaterialViewSet(ModelViewSet):
 
     @action(detail=False)
     def enrolled(self, request):
-
         queryset = EnrolledToMaterial.objects.filter(audience__user_id=request.user.id)
-        print('queryset:', queryset)
         serializer = EnrolledToMaterialSerializer(queryset, many=True)
         return Response(serializer.data)
 
     @action(detail=True)
     def enroll(self, request, pk):
-
-        enrolled_to_material = EnrolledToMaterial()
-        enrolled_to_material.material_id = pk
-        enrolled_to_material.audience = Audience.objects.get(user_id=request.user.id)
-
-        try:
-            enrolled_to_material.save()
-        except:
-            return Response('You are already enrolled in this course')
-
-        return Response('ok')
+        response = EnrolledToMaterial.objects.enroll(material_id=pk, user_id=request.user.id)
+        return Response(response)
 
     @action(detail=True)
     def drop(self, request, pk):
-        try:
-            enrolled_to_material = EnrolledToMaterial.objects.get(material_id=pk, audience__user_id=request.user.id)
-            enrolled_to_material.delete()
-        except:
-            return Response('You are not enrolled in the course')
-
-        return Response('ok')
+        response = EnrolledToMaterial.objects.drop(material_id=pk, user_id=request.user.id)
+        return Response(response)
 
     def get_serializer_class(self):
         if self.request.method in ['POST', 'PATCH']:
             return AddUpdateMaterialSerializer
         elif self.request.method == 'GET':
-            if self.action == 'list':  # if the endpoint is /materials it will return a brief materialssss
+            if self.action == 'list':  # if the endpoint is /materials it will return a brief materials
                 return BriefRetrieveMaterialSerializer
             else:
                 return RetrieveMaterialSerializer
