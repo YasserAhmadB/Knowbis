@@ -11,7 +11,6 @@ from material_manager.EnrolledToMaterial.serializer import EnrolledToMaterialSer
 from material_manager.Material.model import Material
 from material_manager.Material.serializer import AddUpdateMaterialSerializer, BriefRetrieveMaterialSerializer,\
     RetrieveMaterialSerializer
-from users_manager.Audience.model import Audience
 
 
 class MaterialViewSet(ModelViewSet):

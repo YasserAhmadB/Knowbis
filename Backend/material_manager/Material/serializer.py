@@ -49,6 +49,9 @@ class BriefRetrieveMaterialSerializer(RetrieveMaterialSerializer):
 
 
 class AddUpdateMaterialSerializer(MaterialSerializer):
+    # fields = RetrieveMaterialSerializer.Meta.fields.copy()
+    # fields.remove('provider')  # The value of the 'provider' will be auto
+
     """
     Special serializer, it differs from MaterialSerializer that it does not overwrite the id, and category fields.
     Used for creating and updating material.
@@ -65,11 +68,9 @@ class AddMaterialSerializer(AddUpdateMaterialSerializer):
         user_id = self.context['user_id']
         provider = Provider.objects.get(user_id=user_id)
         material = Material.objects.create(provider=provider, **self.validated_data)
-        # return material
-        return provider
+        return material
+        # return provider
 
     def validate_title(self, value: str):
-        validate_field(value)
+        validate_field(value)  # Validate if the title follows the standards of titles in our system
         return value
-
-
