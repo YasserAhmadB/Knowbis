@@ -4,7 +4,7 @@ from django.db import models
 
 class Provider(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    pic = models.ImageField(null=True)
-    description = models.CharField(max_length=1255, null=True)
     major = models.CharField(max_length=255)
-    # certificate = models.FileField()
+    pic = models.ImageField(null=True)
+    description = models.CharField(max_length=1255, null=True, blank=True)
+    certificate = models.FileField(null=True)
