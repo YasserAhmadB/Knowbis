@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['192.168.1.2', '192.168.1.6', '192.168.1.6:3000', '192.168.56.1
 
 INSTALLED_APPS = [
     # 'django.contrib.sites',  # added
-    'django_extensions',
+    # 'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
